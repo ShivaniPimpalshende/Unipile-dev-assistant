@@ -1,0 +1,16 @@
+Unipile API Documentation
+
+Authentication:
+Unipile uses an API key for authentication.
+The API key must be sent in the X-API-KEY header with every request.
+
+Base URL:
+The base URL contains your DSN, which you get from the Unipile dashboard.
+
+Endpoints:
+GET /api/v1/accounts - Retrieves connected accounts.
+POST /api/v1/messages - Sends a message to a user.
+
+Errors:
+401 Unauthorized - Invalid API key.
+429 Too Many Requests - Rate limit exceeded.

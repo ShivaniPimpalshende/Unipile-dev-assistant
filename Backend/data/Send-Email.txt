@@ -1,0 +1,234 @@
+        Documentation                                                                      
+
+ Send Email                                                                       Search
+
+
+
+
+Send Email
+Learn how to send messages with Unipile
+
+
+
+Feature available for :Google, Microsoft, IMAP
+
+
+Send an email
+Use the POST emails Method or use the appropriate SDK Method, to send an email to every recipient.
+
+ cURL    JavaScript
+
+                                                                                                     
+  curl --request POST \
+    --url https://{YOUR_DSN}/api/v1/emails \
+    --header 'Content-Type: multipart/form-data' \
+    --header 'X-API-KEY: {YOUR_ACCESS_TOKEN}' \
+    --form account_id=kzAxdybMQ7ipVxK1U6kwZw \
+    --form 'subject=Hello from Unipile' \
+    --form 'body=Hello, this is a test email from Unipile' \
+    --form 'to=[
+          {
+                  "display_name": "John Doe",
+                  "identifier": "john.doe@gmail.com"
+          }
+  ]' \
+    --form 'cc=[
+          {
+                  "display_name": "Jane Doe",
+                  "identifier": "jane.doe@gmail.com"
+          }
+  ]' \
+
+
+
+
+Send attachments
+You can provide an additional attachment to the request body to send attachments along your email.
+ cURL   JavaScript
+
+
+  curl --request POST \
+    --url https://{YOUR_DSN}/api/v1/emails \
+    --header 'Content-Type: multipart/form-data' \
+    --header 'X-API-KEY: {YOUR_ACCESS_TOKEN}' \
+    --form account_id=kzAxdybMQ7ipVxK1U6kwZw \
+    --form 'subject=Hello from Unipile' \
+    --form 'body=Hello, this is a test email from Unipile' \
+    --form 'to=[
+          {
+                  "display_name": "John Doe",
+                  "identifier": "john.doe@gmail.com"
+          }
+  ]' \
+    --form 'attachments=@C:\Documents\cute_dog.png'
+
+
+
+
+Send with custom headers
+You can set additional custom headers using the "X-" syntax.
+
+ cURL   JavaScript
+
+
+  curl --request POST \
+    --url https://{YOUR_DSN}/api/v1/emails \
+    --header 'Content-Type: multipart/form-data' \
+    --header 'X-API-KEY: {YOUR_ACCESS_TOKEN}' \
+    --form account_id=kzAxdybMQ7ipVxK1U6kwZw \
+    --form 'subject=Hello from Unipile' \
+    --form 'body=Hello, this is a test email from Unipile' \
+    --form 'to=[
+          {
+                  "display_name": "John Doe",
+                  "identifier": "john.doe@gmail.com"
+          }
+  ]' \
+    --form 'cc=[
+          {
+                  "display_name": "Jane Doe",
+                  "identifier": "jane.doe@gmail.com"
+          }
+  ]' \
+    --form 'custom_headers=[
+      {
+        "name": "X-My-Custom-Header",
+           "value": "Example value"
+         }]'
+
+
+
+
+Reply to an email
+You can set additional parameter "reply_to" with the provider_id of an email.
+
+  cURL
+
+
+  curl --request POST \
+    --url https://{YOUR_DSN}/api/v1/emails \
+    --header 'Content-Type: multipart/form-data' \
+    --header 'X-API-KEY: {YOUR_ACCESS_TOKEN}' \
+    --form account_id=kzAxdybMQ7ipVxK1U6kwZw \
+    --form 'subject=Re:Hello from Unipile' \
+    --form 'body=Hello, this is a test reply from Unipile' \
+    --form 'to=[
+          {
+                  "display_name": "John Doe",
+                  "identifier": "john.doe@gmail.com"
+          }
+  ]' \
+    --form 'reply_to=X4R9___qXQKIu80oAF0lJA
+
+
+When replying to an email you can either reply with the exact same subject or add one of the following
+prefixes followed by a space 'Re:', 'Re :', 'RE:', 'RE :', 're:', 're :'
+
+
+Personalize "from"
+You can set additional parameter "from" with your display name and/or alias configured on your provider.
+
+  cURL
+
+
+  curl --request POST \
+    --url https://{YOUR_DSN}/api/v1/emails \
+    --header 'Content-Type: multipart/form-data' \
+    --header 'X-API-KEY: {YOUR_ACCESS_TOKEN}' \
+    --form account_id=kzAxdybMQ7ipVxK1U6kwZw \
+    --form 'subject=Hello from Unipile' \
+    --form 'body=Hello, this is a test email from Unipile' \
+     --form 'from={
+                  "display_name": "Jake Doe",
+                  "identifier": "myalias.doe@gmycompany.com"
+          }' \
+    --form 'to=[
+          {
+                  "display_name": "John Doe",
+                      "identifier": "john.doe@gmail.com"
+            }
+  ]' \
+    --form 'cc=[
+          {
+                      "display_name": "Jane Doe",
+                      "identifier": "jane.doe@gmail.com"
+            }
+  ]' \
+
+
+
+
+Tracking options
+You can receive a webhook when an email is read or a link is clicked.
+
+ cURL Multipart   cURL JSON   SDK Node JS
+
+
+  curl --request POST \
+     --url https://{YOUR_DSN}/api/v1/emails \
+     --header 'Content-Type: multipart/form-data' \
+     --header 'X-API-KEY: {YOUR_ACCESS_TOKEN}' \
+     --form account_id=kzAxdybMQ7ipVxK1U6kwZw \
+     --form 'subject=Hello from Unipile' \
+     --form 'body=Hello, this is a test email from Unipile' \
+     --form 'to=[
+           {
+                   "display_name": "John Doe",
+                   "identifier": "john.doe@gmail.com"
+           }
+  ]' \
+     --form 'cc=[
+           {
+                   "display_name": "Jane Doe",
+                   "identifier": "jane.doe@gmail.com"
+           }
+  ]' \
+     --form 'tracking_options={
+     "opens": true,
+           "links": true,
+           "label": "myownid"
+  }'
+
+
+
+
+Send a plain text email
+ cURL    JavaScript
+
+
+  curl --request POST \
+    --url https://{YOUR_DSN}/api/v1/emails \
+   --header 'Content-Type: multipart/form-data' \
+   --header 'X-API-KEY: {YOUR_ACCESS_TOKEN}' \
+   --form account_id={YOUR_ACCOUNT_ID} \
+   --form 'subject=Hello from Unipile' \
+   --form-string $'body=Hello,\n\nthis is a plain text email from Unipile' \
+   --form 'to=[
+         {
+                 "display_name": "John Doe",
+                 "identifier": "john.doe@gmail.com"
+         }
+ ]' \
+   --form 'cc=[
+         {
+                 "display_name": "Jane Doe",
+                 "identifier": "jane.doe@gmail.com"
+         }
+ ]' \
+   --form-string 'custom_headers=[{"name": "Content-Type", "value": "text/plain;
+ charset=utf-8"}]'
+
+
+
+
+ Updated 18 days ago
+
+
+
+ Email object                                                           Retrieving emails 
+
+
+
+
+                            Did this page help you?    Yes    No
+

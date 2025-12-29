@@ -1,0 +1,23 @@
+COMMON PARAMETERS
+
+Authentication:
+- X-API-KEY (required)
+- account_id (required for most actions)
+
+LinkedIn:
+- social_id: Unique identifier for posts
+- text: Message or post content
+- comment_id: Used for threaded replies
+- mentions: Used to tag users
+- cursor: Used for pagination
+
+Search:
+- api: classic | sales_navigator | recruiter
+- category: people | companies | posts
+- keywords
+- location
+- industry
+- network_distance
+
+Pagination:
+Cursor-based pagination is used across list endpoints.

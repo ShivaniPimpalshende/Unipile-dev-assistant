@@ -1,0 +1,30 @@
+EXAMPLES – WHATSAPP
+
+Connect Account:
+Use SDK to generate QR code.
+Scan QR to complete authentication.
+
+Send Message:
+Use messaging endpoint with account_id and message text.
+
+Receive Message:
+Handled via webhook events.
+
+EXAMPLES – LINKEDIN
+
+Retrieve a Post:
+GET /api/v1/posts/{post_id}
+
+Create a Comment:
+POST /api/v1/posts/{social_id}/comments
+
+Required:
+- account_id
+- text
+
+Search:
+POST /api/v1/linkedin/search
+
+Supports:
+- URL-based search
+- Parameter-based search

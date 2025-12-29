@@ -1,0 +1,29 @@
+LINKEDIN WEBHOOKS
+
+Event: new_relation
+Triggered when a LinkedIn invitation is accepted.
+
+Note:
+This event is not real-time.
+LinkedIn does not support real-time relation updates.
+Events may be delayed up to 8 hours.
+
+Payload includes:
+- event name
+- account_id
+- account_type
+- user details (name, profile URL, picture)
+
+Other Detection Methods:
+- New chat creation when invitation includes a message
+- Periodic comparison of sent invitations and relations list
+
+WHATSAPP WEBHOOKS
+
+Events:
+- message_received
+- message_sent
+- message_delivered
+
+Webhooks notify your server in real time when events occur.
+Webhook endpoints must be publicly accessible.

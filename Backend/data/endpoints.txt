@@ -1,0 +1,46 @@
+LINKEDIN ENDPOINTS
+
+Posts:
+- Retrieve a post
+- Create a post (with or without attachments)
+- Comment on a post
+- Add reaction to a post
+- List comments
+- List reactions
+- List all posts of a user or company
+
+Important:
+LinkedIn uses multiple IDs for the same post.
+Always use the "social_id" (urn:li:activity:XXXX) for interactions.
+
+Search:
+- Search People (Classic, Sales Navigator, Recruiter)
+- Search Companies
+- Search Posts
+- Search Jobs
+
+Search supports:
+- URL-based search
+- Parameter-based search
+- Pagination using cursor
+
+Chats:
+- Start a new chat
+- Detect accepted invitations via chat creation
+
+Limits:
+LinkedIn enforces strict rate limits.
+Outreach and invitations must be spread over time.
+
+WHATSAPP ENDPOINTS
+
+Account Connection:
+- WhatsApp accounts are connected using QR code authentication.
+
+Messaging:
+- Send messages
+- Receive messages via webhook events
+
+Connection:
+WhatsApp requires scanning a QR code to establish the session.
+The session remains active after successful authentication.

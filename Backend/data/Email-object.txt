@@ -1,0 +1,173 @@
+           Documentation                                                              
+
+     Email object                                                             Search
+
+
+
+
+    Email object
+    This section will explain in detail each field of the email object so you can properly
+    integrate them in your application
+
+
+
+
+    object
+    Fixed value "Email"
+
+
+   id
+    Unique identifier of the email for Unipile.
+
+    Can be used to prevent duplicate entries.
+
+
+    account_id
+    Unique identifier of the parent account.
+
+
+    date
+    Provider's server acknowledge datetime.
+
+
+    from_attendee
+    Information on the sender
+
+    from_attendee.display_name
+    Name set by the sender
+
+    from_attendee.identifier
+    Email of the sender
+
+    from_attendee.identifier_type
+Fixed value "EMAIL_ADDRESS
+
+
+to_attendees
+List of "to" recipients of email
+
+to_attendees.display_name
+Name of recipient set by the sender
+
+to_attendees.identifier
+Email of the recipient
+
+to_attendees.identifier_type
+Fixed value "EMAIL_ADDRESS
+
+
+cc_attendees
+List of "cc" recipients of email
+
+cc_attendees.display_name
+Name of recipient set by the sender
+
+cc_attendees.identifier
+Email of the recipient
+
+cc_attendees.identifier_type
+Fixed value "EMAIL_ADDRESS
+
+
+bcc_attendees
+List of "bcc" recipients of email
+
+bcc_attendees.display_name
+Name of recipient set by the sender
+
+bcc_attendees.identifier
+Email of the recipient
+
+bcc_attendees.identifier_type
+Fixed value "EMAIL_ADDRESS
+
+
+reply_to_attendees
+List of "reply_to" of email
+
+reply_to_attendees.display_name
+Name of recipient set by the sender
+
+reply_to_attendees.identifier
+Email of the recipient
+
+reply_to_attendees.identifier_type
+Fixed value "EMAIL_ADDRESS"
+
+
+provider_id
+Json of provider value, ex :
+{"message_id":"D8.08.07528.0034A846(A)hs.mta1vrest.cc.prd.sparkpost","uid":"AQMkADAwATM3ZmYAZS0
+4YjYyLTkzMwA4LTAwAi0wMAoARgAAA6SPCWnzzEdJj0W3b32H3c8HAPXMsqSCUH9FpzZzxeMbKMQAAAI
+BDAAAAPXMsqSCUH9FpzZzxeMbKMQABHfkN3EAAAA="}
+
+
+subject
+Subject of the email.
+
+
+body
+Content of the email.
+
+
+body_plain
+Text content of the email.
+
+
+has_attachments
+Boolean, true if have attachment
+
+
+attachments
+List of attachments
+attachments.id
+Unique identifier of the attachment
+
+attachments.name
+Name of the attachment, including extension
+
+attachments.extension
+Extension of the attachment
+
+attachments.size
+Size of the attachment in bytes
+
+attachments.mime
+Mime type of the attachment
+
+
+folders
+Folders of the email
+
+
+role
+Role of the folder of the email
+
+
+read_date
+Date of first API get email
+
+
+is_complete
+Status of email fetching
+
+
+headers
+Headers of the email if requested
+
+headers.name
+Name of the header
+
+headers.value
+Value of the header
+ Updated about 1 month ago
+
+
+
+ Google OAuth                                                         Send Email 
+
+
+
+
+                              Did this page help you?    Yes    No
+

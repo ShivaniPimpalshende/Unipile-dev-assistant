@@ -1,0 +1,27 @@
+AUTHENTICATION
+
+Unipile API uses Access Tokens to authenticate requests.
+The access token acts as the API key and is managed from the Unipile Dashboard.
+
+Security:
+Access tokens carry high privileges and must be kept secure.
+They must not be shared publicly or committed to repositories.
+
+DSN:
+Each Unipile account has a DSN.
+The DSN is used as part of the base API URL.
+
+Base URL format:
+https://<YOUR_DSN>/api/v1/...
+
+Authentication Header:
+All API requests must include the access token in the request headers.
+
+Header format:
+X-API-KEY: <YOUR_ACCESS_TOKEN>
+
+Authentication Methods:
+- SDK-based authentication: Token is set once and sent automatically.
+- Manual authentication: Token must be included in every request header.
+
+Unauthenticated requests are rejected.
