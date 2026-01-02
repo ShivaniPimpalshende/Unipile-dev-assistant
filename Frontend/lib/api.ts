@@ -1,15 +1,13 @@
-const API_BASE = "http://127.0.0.1:8000";
-
-export async function sendChatMessage(message: string) {
-  const res = await fetch(`${API_BASE}/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query: message }),
-  });
-
-  if (!res.ok) {
-    throw new Error("Backend error");
-  }
-
-  return res.json();
+export async function sendChatMessage({
+  message,
+  image,
+}: {
+  message: string;
+  image?: string;
+}) {
+  await new Promise((r) => setTimeout(r, 1000)); // simulate delay
+  return {
+    answer: `Assistant: I received your message -> "${message}"`,
+    timestamp: new Date().toLocaleTimeString(),
+  };
 }

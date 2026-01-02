@@ -14,3 +14,30 @@ POST /api/v1/messages - Sends a message to a user.
 Errors:
 401 Unauthorized - Invalid API key.
 429 Too Many Requests - Rate limit exceeded.
+Unipile is a platform that helps developers manage email, LinkedIn, and calendar integrations. 
+It allows automation and retrieval of events, messages, and tasks in one place.
+Unipile is an innovative API designed to provide seamless integrations of various messaging and communication channels into your software applications.
+
+With Unipile, you can effortlessly incorporate messaging services from popular platforms such as WhatsApp, LinkedIn, Instagram, Messenger, Twitter, and Telegram.
+
+And we also provide comprehensive email integration with all providers, including Google, Microsoft, and IMAP.
+
+Moreover, our roadmap includes plans to support additional features like SMS/RCS and contacts in the near future.
+How can Unipile help ?
+Avoid the complexities of building messaging functionality from scratch and reduce development time and costs by leveraging Unipile's ready-made API. With few calls, you can setup within your UI:
+
+Centralise messages history on a contact: Use Unipile to retrieve the history of a conversation with a contact, whatever the messaging provider it is
+Notify new messages: With webhooks, you can receive new messages and emails in real-time
+Send messages: Send messages to your users contact list or email to any recipient. You can also initiate new 1to1 chat from your app
+Invite contact: Send invitations to contact to join your user network or create an outreach sequence
+Get contact information: Get user's profile, status relation, fetch posts from a person or a company...
+
+How to test ? Create a Unipile Account
+To access the API and start exploring Unipile's messaging or emails capabilities, please follow these steps:
+
+Create an account on API Dashboard Signup.
+Log in to API Dashboard and get your DSN (Data Source Name) which must be used by for your requests.
+
+Generate an Access Token : Generate a token
+On the "Accounts" page, you can connect accounts to test directly API call for sending and receiving messages, bypassing the API account adding process for moment.
+After that, you can experiment with every feature without writing a single line of code directly in the "API Reference" section of the documentation. Specify your DSN and your token for the route you wish to use, and then interactively fill in the parameters.
