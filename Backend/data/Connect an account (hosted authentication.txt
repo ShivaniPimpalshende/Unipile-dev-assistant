@@ -1,0 +1,348 @@
+API NAME: Connect an account (hosted authentication)
+
+METHOD: POST
+
+ENDPOINT:
+https://{subdomain}.unipile.com:{port}/api/v1/hosted/accounts/link
+
+DESCRIPTION:
+Create a URL which redirects to Unipile's hosted authentication
+to connect or reconnect an account.
+
+==================================================
+REQUEST BODY (EXAMPLE)
+==================================================
+
+{
+  "type": "create",
+  "providers": "*"
+}
+
+==================================================
+REQUEST EXAMPLES / Code
+==================================================
+
+[SHELL]
+curl --request POST \
+  --url https://api1.unipile.com:13111/api/v1/hosted/accounts/link \
+  --header 'accept: application/json' \
+  --header 'content-type: application/json' \
+  --data '{
+    "type": "create",
+    "providers": "*"
+  }'
+
+
+[NODE.JS]
+import { UnipileClient } from "unipile-node-sdk"
+const BASE_URL = "your base url"
+const ACCESS_TOKEN = "your access token"
+const type = "create"
+const providers = "*"
+const api_url = "url of your Unipile server"
+const expiresOn = "YYYY-MM-DDTHH:MM:SS.sssZ"
+try {
+  const client = new UnipileClient(BASE_URL, ACCESS_TOKEN)
+  const response = await client.account.createHostedAuthLink({
+    type,
+    providers,
+    api_url,
+    expiresOn,
+  })
+} catch (error) {
+  console.log(error)
+}
+
+
+[RUBY]
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/hosted/accounts/link")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Post.new(url)
+request["accept"] = "application/json"
+request["content-type"] = "application/json"
+request.body = "{\"type\":\"create\",\"providers\":\"*\"}"
+response = http.request(request)
+puts response.read_body
+
+
+[PHP]
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('POST',
+  'https://api1.unipile.com:13111/api/v1/hosted/accounts/link',
+  [
+    'body' => '{"type":"create","providers":"*"}',
+    'headers' => [
+      'accept' => 'application/json',
+      'content-type' => 'application/json',
+    ],
+  ]
+);
+echo $response->getBody();
+
+
+[R]
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/hosted/accounts/link"
+payload <- "{\"type\":\"create\",\"providers\":\"*\"}"
+response <- VERB(
+  "POST",
+  url,
+  body = payload,
+  content_type("application/json"),
+  accept("application/json"),
+  encode = "json"
+)
+content(response, "text")
+
+
+[C]
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL,
+  "https://api1.unipile.com:13111/api/v1/hosted/accounts/link");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+curl_easy_setopt(hnd, CURLOPT_POSTFIELDS,
+  "{\"type\":\"create\",\"providers\":\"*\"}");
+CURLcode ret = curl_easy_perform(hnd);
+
+
+[C#]
+using RestSharp;
+var options = new RestClientOptions(
+  "https://api1.unipile.com:13111/api/v1/hosted/accounts/link"
+);
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+request.AddJsonBody("{\"type\":\"create\",\"providers\":\"*\"}", false);
+var response = await client.PostAsync(request);
+Console.WriteLine(response.Content);
+
+
+[C++]
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL,
+  "https://api1.unipile.com:13111/api/v1/hosted/accounts/link");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+curl_easy_setopt(hnd, CURLOPT_POSTFIELDS,
+  "{\"type\":\"create\",\"providers\":\"*\"}");
+CURLcode ret = curl_easy_perform(hnd);
+
+
+[CLOJURE]
+(require '[clj-http.client :as client])
+(client/post
+  "https://api1.unipile.com:13111/api/v1/hosted/accounts/link"
+  {:content-type :json
+   :form-params {:type "create" :providers "*"}
+   :accept :json})
+
+
+[GO]
+package main
+import (
+  "fmt"
+  "strings"
+  "net/http"
+  "io"
+)
+func main() {
+  url := "https://api1.unipile.com:13111/api/v1/hosted/accounts/link"
+  payload := strings.NewReader(
+    "{\"type\":\"create\",\"providers\":\"*\"}"
+  )
+  req, _ := http.NewRequest("POST", url, payload)
+  req.Header.Add("accept", "application/json")
+  req.Header.Add("content-type", "application/json")
+  res, _ := http.DefaultClient.Do(req)
+  defer res.Body.Close()
+  body, _ := io.ReadAll(res.Body)
+  fmt.Println(string(body))
+}
+
+
+[HTTP]
+POST /api/v1/hosted/accounts/link HTTP/1.1
+Host: api1.unipile.com:13111
+Accept: application/json
+Content-Type: application/json
+{"type":"create","providers":"*"}
+
+
+[JAVA]
+OkHttpClient client = new OkHttpClient();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body =
+  RequestBody.create(mediaType,
+    "{\"type\":\"create\",\"providers\":\"*\"}");
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/hosted/accounts/link")
+  .post(body)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "application/json")
+  .build();
+Response response = client.newCall(request).execute();
+
+
+[JAVASCRIPT]
+const options = {
+  method: "POST",
+  headers: {
+    accept: "application/json",
+    "content-type": "application/json"
+  },
+  body: JSON.stringify({ type: "create", providers: "*" })
+};
+
+fetch(
+  "https://api1.unipile.com:13111/api/v1/hosted/accounts/link",
+  options
+)
+.then(res => res.json())
+.then(res => console.log(res))
+.catch(err => console.error(err));
+
+
+[KOTLIN]
+val client = OkHttpClient()
+val mediaType = MediaType.parse("application/json")
+val body = RequestBody.create(
+  mediaType,
+  "{\"type\":\"create\",\"providers\":\"*\"}"
+)
+
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/hosted/accounts/link")
+  .post(body)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "application/json")
+  .build()
+
+val response = client.newCall(request).execute()
+
+
+[OBJECTIVE-C]
+NSDictionary *headers = @{
+  @"accept": @"application/json",
+  @"content-type": @"application/json"
+};
+
+NSDictionary *params = @{
+  @"type": @"create",
+  @"providers": @"*"
+};
+
+NSData *postData =
+  [NSJSONSerialization dataWithJSONObject:params options:0 error:nil];
+
+NSMutableURLRequest *request =
+  [NSMutableURLRequest requestWithURL:
+   [NSURL URLWithString:
+    @"https://api1.unipile.com:13111/api/v1/hosted/accounts/link"]];
+
+[request setHTTPMethod:@"POST"];
+[request setAllHTTPHeaderFields:headers];
+[request setHTTPBody:postData];
+
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *task =
+  [session dataTaskWithRequest:request
+   completionHandler:^(NSData *data,
+                       NSURLResponse *response,
+                       NSError *error) {
+     if (error) NSLog(@"%@", error);
+   }];
+[task resume];
+
+
+[OCAML]
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri =
+  Uri.of_string
+    "https://api1.unipile.com:13111/api/v1/hosted/accounts/link" in
+let headers =
+  Header.add_list (Header.init ()) [
+    ("accept", "application/json");
+    ("content-type", "application/json");
+  ] in
+let body =
+  Cohttp_lwt_body.of_string
+    "{\"type\":\"create\",\"providers\":\"*\"}" in
+Client.call ~headers ~body `POST uri
+>>= fun (_res, _body) ->
+  Lwt.return_unit
+
+
+[POWERSHELL]
+$headers = @{
+  "accept" = "application/json"
+  "content-type" = "application/json"
+}
+Invoke-WebRequest `
+  -Uri "https://api1.unipile.com:13111/api/v1/hosted/accounts/link" `
+  -Method POST `
+  -Headers $headers `
+  -Body '{"type":"create","providers":"*"}'
+
+
+[PYTHON]
+import requests
+url = "https://api1.unipile.com:13111/api/v1/hosted/accounts/link"
+payload = {
+  "type": "create",
+  "providers": "*"
+}
+headers = {
+  "accept": "application/json",
+  "content-type": "application/json"
+}
+response = requests.post(url, json=payload, headers=headers)
+print(response.text)
+
+
+[SWIFT]
+import Foundation
+let parameters: [String: Any] = [
+  "type": "create",
+  "providers": "*"
+]
+let postData =
+  try JSONSerialization.data(withJSONObject: parameters)
+let url =
+  URL(string:
+    "https://api1.unipile.com:13111/api/v1/hosted/accounts/link")!
+var request = URLRequest(url: url)
+request.httpMethod = "POST"
+request.allHTTPHeaderFields = [
+  "accept": "application/json",
+  "content-type": "application/json"
+]
+request.httpBody = postData
+let (data, _) =
+  try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+
+RESPONSE:
+{
+  "object": "HostedAuthUrl",
+  "url": "string"
+}
+

@@ -1,0 +1,312 @@
+RETRIEVE A CHAT
+---------------
+Method: GET
+URL: https://{subdomain}.unipile.com:{port}/api/v1/chats/{chat_id}
+
+
+DESCRIPTION
+-----------
+Retrieve the details of a chat.
+
+
+PATH PARAMS
+-----------
+chat_id
+Type: string
+Required: yes
+Description:
+The Unipile or provider ID of the chat.
+
+
+QUERY PARAMS
+------------
+account_id
+Type: string
+Required: Mandatory if the chat ID is a provider ID.
+
+
+==================================================
+REQUEST EXAMPLES
+==================================================
+
+SHELL
+-----
+curl --request GET \
+     --url https://api1.unipile.com:13111/api/v1/chats/chat_id \
+     --header 'accept: application/json'
+
+
+NODE
+----
+import { UnipileClient } from "unipile-node-sdk"
+// SDK setup
+const BASE_URL = "your base url"
+const ACCESS_TOKEN = "your access token"
+// Inputs
+const chat_id = "chat id"
+try {
+	const client = new UnipileClient(BASE_URL, ACCESS_TOKEN)
+	const response = await client.messaging.getChat(chat_id)
+} catch (error) {
+	console.log(error)
+}
+
+
+RUBY
+----
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/chats/chat_id")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Get.new(url)
+request["accept"] = 'application/json'
+response = http.request(request)
+puts response.read_body
+
+
+PHP
+---
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('GET', 'https://api1.unipile.com:13111/api/v1/chats/chat_id', [
+  'headers' => [
+    'accept' => 'application/json',
+  ],
+]);
+echo $response->getBody();
+
+
+R
+-
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/chats/chat_id"
+response <- VERB(
+  "GET",
+  url,
+  content_type("application/octet-stream"),
+  accept("application/json")
+)
+content(response, "text")
+
+
+C
+-
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL,
+"https://api1.unipile.com:13111/api/v1/chats/chat_id");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);
+
+
+C#
+--
+using RestSharp;
+var options =
+new RestClientOptions("https://api1.unipile.com:13111/api/v1/chats/chat_id");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+var response = await client.GetAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+
+C++
+---
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL,
+"https://api1.unipile.com:13111/api/v1/chats/chat_id");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);
+
+
+CLOJURE
+-------
+(require '[clj-http.client :as client])
+(client/get
+ "https://api1.unipile.com:13111/api/v1/chats/chat_id"
+ {:accept :json})
+
+
+HTTP
+----
+GET /api/v1/chats/chat_id HTTP/1.1
+Host: api1.unipile.com:13111
+Accept: application/json
+
+
+JAVA
+----
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/chats/chat_id")
+  .get()
+  .addHeader("accept", "application/json")
+  .build();
+Response response = client.newCall(request).execute();
+
+
+JAVASCRIPT
+----------
+const options = {
+  method: 'GET',
+  headers: { accept: 'application/json' }
+};
+fetch('https://api1.unipile.com:13111/api/v1/chats/chat_id', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+
+KOTLIN
+------
+val client = OkHttpClient()
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/chats/chat_id")
+  .get()
+  .addHeader("accept", "application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+
+OBJECTIVE-C
+-----------
+#import <Foundation/Foundation.h>
+NSDictionary *headers = @{ @"accept": @"application/json" };
+NSMutableURLRequest *request =
+[NSMutableURLRequest requestWithURL:
+ [NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/chats/chat_id"]
+ cachePolicy:NSURLRequestUseProtocolCachePolicy
+ timeoutInterval:10.0];
+[request setHTTPMethod:@"GET"];
+[request setAllHTTPHeaderFields:headers];
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask =
+[session dataTaskWithRequest:request
+ completionHandler:^(NSData *data,
+                     NSURLResponse *response,
+                     NSError *error) {
+    if (error) {
+        NSLog(@"%@", error);
+    } else {
+        NSHTTPURLResponse *httpResponse =
+        (NSHTTPURLResponse *) response;
+        NSLog(@"%@", httpResponse);
+    }
+}];
+[dataTask resume];
+
+
+OCAML
+-----
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri =
+Uri.of_string
+"https://api1.unipile.com:13111/api/v1/chats/chat_id"
+let headers =
+Header.add (Header.init ()) "accept" "application/json"
+Client.call ~headers `GET uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)
+
+
+POWERSHELL
+----------
+$headers=@{}
+$headers.Add("accept", "application/json")
+$response = Invoke-WebRequest `
+  -Uri 'https://api1.unipile.com:13111/api/v1/chats/chat_id' `
+  -Method GET `
+  -Headers $headers
+
+
+PYTHON
+------
+import requests
+url = "https://api1.unipile.com:13111/api/v1/chats/chat_id"
+headers = { "accept": "application/json" }
+response = requests.get(url, headers=headers)
+print(response.text)
+
+
+SWIFT
+-----
+import Foundation
+let url =
+URL(string:
+"https://api1.unipile.com:13111/api/v1/chats/chat_id")!
+var request = URLRequest(url: url)
+request.httpMethod = "GET"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = [
+  "accept": "application/json"
+]
+let (data, _) =
+try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+
+==================================================
+RESPONSE
+==================================================
+{
+  "id": "string",
+  "account_id": "string",
+  "account_type": "WHATSAPP",
+  "provider_id": "string",
+  "attendee_provider_id": "string",
+  "name": "string",
+  "type": 0,
+  "timestamp": "string",
+  "unread_count": 0,
+  "archived": 0,
+  "muted_until": -1,
+  "read_only": 0,
+  "disabledFeatures": [
+    "reactions",
+    "reply"
+  ],
+  "subject": "string",
+  "organization_id": "string",
+  "mailbox_id": "string",
+  "content_type": "inmail",
+  "folder": [
+    "INBOX",
+    "INBOX_LINKEDIN_CLASSIC",
+    "INBOX_LINKEDIN_RECRUITER",
+    "INBOX_LINKEDIN_SALES_NAVIGATOR",
+    "INBOX_LINKEDIN_ORGANIZATION"
+  ],
+  "pinned": 0,
+  "object": "Chat",
+  "lastMessage": {
+    "provider_id": "string",
+    "sender_id": "string",
+    "text": "string",
+    "attachments": [ ... ],
+    "id": "string",
+    "account_id": "string",
+    "chat_id": "string",
+    "chat_provider_id": "string",
+    "timestamp": "string",
+    "is_sender": 0,
+    "quoted": { ... },
+    "reactions": [ ... ],
+    "seen": 0,
+    "hidden": 0,
+    "deleted": 0,
+    "edited": 0,
+    "message_type": "MESSAGE"
+  }
+}

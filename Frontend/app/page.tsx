@@ -20,6 +20,18 @@ type Chat = {
 };
 
 export default function Home() {
+  
+
+useEffect(() => {
+  const fetchHistory = async () => {
+    const res = await fetch(`http://127.0.0.1:8000/user_history/user123`);
+    const data = await res.json();
+    setChats(data.chats); // overwrite initial chat state with history
+  };
+
+  fetchHistory();
+}, []);
+
   const [chats, setChats] = useState<Chat[]>([
     { id: 1, title: "Chat 1", messages: [] },
   ]);
@@ -56,7 +68,7 @@ export default function Home() {
       const res = await fetch("http://127.0.0.1:8000/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, image }),
+        body: JSON.stringify({ message: text, image, user_id: "user123"  }),
       });
 
       const data = await res.json();

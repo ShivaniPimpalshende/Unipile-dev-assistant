@@ -1,0 +1,278 @@
+Send a message in a chat
+post
+https://{subdomain}.unipile.com:{port}/api/v1/chats/{chat_id}/messages
+Send a message to the given chat with the possibility to link some attachments.
+
+
+Path Params
+chat_id
+string
+required
+The id of the chat where to send the message.
+
+Body Params
+text
+string
+account_id
+string
+An account_id can be specified to prevent the user from sending messages in chats not belonging to the account.
+
+thread_id
+string
+Optional and for Slack’s messaging only. The id of the thread to send the message in.
+
+quote_id
+string
+The id of a message to quote. The id of the message to quote / reply to.
+
+voice_message
+file
+(Whatsapp & Linkedin) A file to send as voice message. We recommend usage of .m4a format for Linkedin. For Instagram and Telegram you need to use attachment field.
+
+No file chosen
+video_message
+file
+(Linkedin) A file to send as video message.
+
+No file chosen
+attachments
+array of files
+
+ADD file
+typing_duration
+string
+(WhatsApp only) Set a duration in milliseconds to simulate a typing status for that duration before sending the message.
+
+REQUEST EXAMPLES:
+
+Shell:
+curl --request POST \
+     --url https://api1.unipile.com:13111/api/v1/chats/chat_id/messages \
+     --header 'accept: application/json' \
+     --header 'content-type: multipart/form-data'
+
+
+Node:
+import { UnipileClient } from "unipile-node-sdk"
+// SDK setup
+const BASE_URL = "your base url"
+const ACCESS_TOKEN = "your access token"
+// Inputs
+const chat_id = "chat id"
+const text = "text"
+try {
+	const client = new UnipileClient(BASE_URL, ACCESS_TOKEN)
+	const response = await client.messaging.sendMessage({
+		chat_id,
+		text,
+	})
+} catch (error) {
+	console.log(error)
+}
+
+
+Ruby:
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/chats/chat_id/messages")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Post.new(url)
+request["accept"] = 'application/json'
+request["content-type"] = 'multipart/form-data'
+response = http.request(request)
+puts response.read_body
+
+
+PHP:
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('POST', 'https://api1.unipile.com:13111/api/v1/chats/chat_id/messages', [
+  'headers' => [
+    'accept' => 'application/json',
+    'content-type' => 'multipart/form-data',
+  ],
+]);
+echo $response->getBody();
+
+
+R:
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/chats/chat_id/messages"
+response <- VERB("POST", url, content_type("application/octet-stream"), accept("application/json"))
+content(response, "text")
+
+
+C:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/chats/chat_id/messages");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: multipart/form-data");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);
+
+
+C#:
+using RestSharp;
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/chats/chat_id/messages");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+request.AddHeader("content-type", "multipart/form-data");
+var response = await client.PostAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+
+C++:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/chats/chat_id/messages");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: multipart/form-data");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);
+
+
+Clojure:
+(require '[clj-http.client :as client])
+(client/post "https://api1.unipile.com:13111/api/v1/chats/chat_id/messages" {:headers {:content-type "multipart/form-data"}
+                                                                             :accept :json})
+
+
+Go:
+package main
+import (
+	"fmt"
+	"net/http"
+	"io"
+)
+func main() {
+	url := "https://api1.unipile.com:13111/api/v1/chats/chat_id/messages"
+	req, _ := http.NewRequest("POST", url, nil)
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("content-type", "multipart/form-data")
+	res, _ := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+	fmt.Println(string(body))
+}
+
+
+HTTP:
+POST /api/v1/chats/chat_id/messages HTTP/1.1
+Accept: application/json
+Content-Type: multipart/form-data
+Host: api1.unipile.com:13111
+
+Java:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/chats/chat_id/messages")
+  .post(null)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "multipart/form-data")
+  .build();
+Response response = client.newCall(request).execute();
+
+
+JavaScript:
+const options = {
+  method: 'POST',
+  headers: {accept: 'application/json', 'content-type': 'multipart/form-data'}
+};
+fetch('https://api1.unipile.com:13111/api/v1/chats/chat_id/messages', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+
+Kotlin:
+val client = OkHttpClient()
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/chats/chat_id/messages")
+  .post(null)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "multipart/form-data")
+  .build()
+val response = client.newCall(request).execute()
+
+
+Objective-C:
+#import <Foundation/Foundation.h>
+NSDictionary *headers = @{ @"accept": @"application/json",
+                           @"content-type": @"multipart/form-data" };
+
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/chats/chat_id/messages"]
+                                                       cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                   timeoutInterval:10.0];
+[request setHTTPMethod:@"POST"];
+[request setAllHTTPHeaderFields:headers];
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                if (error) {
+                                                    NSLog(@"%@", error);
+                                                } else {
+                                                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                                                    NSLog(@"%@", httpResponse);
+                                                }
+                                            }];
+[dataTask resume];
+
+
+OCaml:
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/chats/chat_id/messages" in
+let headers = Header.add_list (Header.init ()) [
+  ("accept", "application/json");
+  ("content-type", "multipart/form-data");
+] in
+Client.call ~headers `POST uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)
+
+
+PowerShell:
+$headers=@{}
+$headers.Add("accept", "application/json")
+$headers.Add("content-type", "multipart/form-data")
+$response = Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/chats/chat_id/messages' -Method POST -Headers $headers
+
+
+Python:
+import requests
+url = "https://api1.unipile.com:13111/api/v1/chats/chat_id/messages"
+headers = {
+    "accept": "application/json",
+    "content-type": "multipart/form-data"
+}
+response = requests.post(url, headers=headers)
+print(response.text)
+
+
+Swift:
+import Foundation
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/chats/chat_id/messages")!
+var request = URLRequest(url: url)
+request.httpMethod = "POST"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = [
+  "accept": "application/json",
+  "content-type": "multipart/form-data"
+]
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+RESPONSE:
+{
+  "object": "MessageSent",
+  "message_id": "string"
+}

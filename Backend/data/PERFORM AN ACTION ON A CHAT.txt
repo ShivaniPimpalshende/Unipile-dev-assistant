@@ -1,0 +1,320 @@
+PERFORM AN ACTION ON A CHAT
+---------------------------
+Method: PATCH
+URL: https://{subdomain}.unipile.com:{port}/api/v1/chats/{chat_id}
+
+DESCRIPTION
+-----------
+Perform an action like changing the read status, muting the chat, etc.
+
+PATH PARAMS
+-----------
+chat_id
+Type: string
+Required: yes
+Description: The id of the chat to be patched
+
+BODY PARAMS
+-----------
+action
+Type: string
+Enum / Required
+Description: The action to perform on the chat:
+- setReadStatus: (Whatsapp & LinkedIn only) Set the read status of the chat
+- setMuteStatus: (Whatsapp & LinkedIn only) Set the mute status of the chat
+- setArchiveStatus: (WhatsApp only) Set the archive status of the chat
+- setPinnedStatus: (WhatsApp only) Set the pinned status of the chat
+- addParticipant: (WhatsApp only) Add a participant to the group chat. Provide the provider ID (334455667788@s.whatsapp.net) of the user as value. Account owner must have permission.
+
+==================================================
+REQUEST EXAMPLES
+==================================================
+
+SHELL
+-----
+curl --request PATCH \
+     --url https://api1.unipile.com:13111/api/v1/chats/chat_id \
+     --header 'accept: application/json' \
+     --header 'content-type: application/json' \
+     --data '
+{
+  "action": "setReadStatus",
+  "value": true
+}
+'
+
+NODE
+----
+import { UnipileClient } from "unipile-node-sdk"
+// SDK setup
+const BASE_URL = "your base url"
+const ACCESS_TOKEN = "your access token"
+// Inputs
+const chat_id = "chat id"
+const action = "setReadStatus"
+const value = true
+try {
+	const client = new UnipileClient(BASE_URL, ACCESS_TOKEN)
+	const response = await client.messaging.performAction({
+		chat_id,
+		action,
+		value,
+	})
+} catch (error) {
+	console.log(error)
+}
+
+
+RUBY
+----
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/chats/chat_id")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Patch.new(url)
+request["accept"] = 'application/json'
+request["content-type"] = 'application/json'
+request.body = "{\"action\":\"setReadStatus\",\"value\":true}"
+response = http.request(request)
+puts response.read_body
+
+PHP
+---
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('PATCH', 'https://api1.unipile.com:13111/api/v1/chats/chat_id', [
+  'body' => '{"action":"setReadStatus","value":true}',
+  'headers' => [
+    'accept' => 'application/json',
+    'content-type' => 'application/json',
+  ],
+]);
+echo $response->getBody();
+
+
+R
+-
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/chats/chat_id"
+payload <- "{\"action\":\"setReadStatus\",\"value\":true}"
+encode <- "json"
+response <- VERB("PATCH", url, body = payload, content_type("application/json"), accept("application/json"), encode = encode)
+content(response, "text")
+
+
+C
+-
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "PATCH");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/chats/chat_id");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, "{\"action\":\"setReadStatus\",\"value\":true}");
+CURLcode ret = curl_easy_perform(hnd);
+
+C#
+--
+using RestSharp;
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/chats/chat_id");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+request.AddJsonBody("{\"action\":\"setReadStatus\",\"value\":true}", false);
+var response = await client.PatchAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+
+C++
+---
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "PATCH");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/chats/chat_id");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, "{\"action\":\"setReadStatus\",\"value\":true}");
+CURLcode ret = curl_easy_perform(hnd);
+
+
+CLOJURE
+-------
+(require '[clj-http.client :as client])
+(client/patch "https://api1.unipile.com:13111/api/v1/chats/chat_id" {:content-type :json
+                                                                     :form-params {:action "setReadStatus"
+                                                                                   :value true}
+                                                                     :accept :json})
+
+
+GO
+--
+package main
+import (
+	"fmt"
+	"strings"
+	"net/http"
+	"io"
+)
+func main() {
+	url := "https://api1.unipile.com:13111/api/v1/chats/chat_id"
+	payload := strings.NewReader("{\"action\":\"setReadStatus\",\"value\":true}")
+	req, _ := http.NewRequest("PATCH", url, payload)
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("content-type", "application/json")
+	res, _ := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+	fmt.Println(string(body))
+}
+
+
+HTTP
+----
+PATCH /api/v1/chats/chat_id HTTP/1.1
+Host: api1.unipile.com:13111
+Accept: application/json
+Content-Type: application/json
+Content-Length: 39
+{"action":"setReadStatus","value":true}
+
+
+JAVA
+----
+OkHttpClient client = new OkHttpClient();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "{\"action\":\"setReadStatus\",\"value\":true}");
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/chats/chat_id")
+  .patch(body)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "application/json")
+  .build();
+Response response = client.newCall(request).execute();
+
+
+JAVASCRIPT
+----------
+const options = {
+  method: 'PATCH',
+  headers: {accept: 'application/json', 'content-type': 'application/json'},
+  body: JSON.stringify({action: 'setReadStatus', value: true})
+};
+fetch('https://api1.unipile.com:13111/api/v1/chats/chat_id', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+
+KOTLIN
+------
+val client = OkHttpClient()
+val mediaType = MediaType.parse("application/json")
+val body = RequestBody.create(mediaType, "{\"action\":\"setReadStatus\",\"value\":true}")
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/chats/chat_id")
+  .patch(body)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+
+OBJECTIVE-C
+-----------
+#import <Foundation/Foundation.h>
+NSDictionary *headers = @{ @"accept": @"application/json",
+                           @"content-type": @"application/json" };
+NSDictionary *parameters = @{ @"action": @"setReadStatus",
+                              @"value": @YES };
+NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:nil];
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/chats/chat_id"]
+                                                       cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                   timeoutInterval:10.0];
+[request setHTTPMethod:@"PATCH"];
+[request setAllHTTPHeaderFields:headers];
+[request setHTTPBody:postData];
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                if (error) {
+                                                    NSLog(@"%@", error);
+                                                } else {
+                                                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                                                    NSLog(@"%@", httpResponse);
+                                                }
+                                            }];
+[dataTask resume];
+
+
+OCAML
+-----
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/chats/chat_id" in
+let headers = Header.add_list (Header.init ()) [
+  ("accept", "application/json");
+  ("content-type", "application/json");
+] in
+let body = Cohttp_lwt_body.of_string "{\"action\":\"setReadStatus\",\"value\":true}" in
+Client.call ~headers ~body `PATCH uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)
+
+
+POWERSHELL
+----------
+$headers=@{}
+$headers.Add("accept", "application/json")
+$headers.Add("content-type", "application/json")
+$response = Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/chats/chat_id' -Method PATCH -Headers $headers -ContentType 'application/json' -Body '{"action":"setReadStatus","value":true}'
+
+
+PYTHON
+------
+import requests
+url = "https://api1.unipile.com:13111/api/v1/chats/chat_id"
+payload = {
+    "action": "setReadStatus",
+    "value": True
+}
+headers = {
+    "accept": "application/json",
+    "content-type": "application/json"
+}
+response = requests.patch(url, json=payload, headers=headers)
+print(response.text)
+
+
+SWIFT
+-----
+import Foundation
+let parameters = [
+  "action": "setReadStatus",
+  "value": true
+] as [String : Any?]
+let postData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/chats/chat_id")!
+var request = URLRequest(url: url)
+request.httpMethod = "PATCH"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = [
+  "accept": "application/json",
+  "content-type": "application/json"
+]
+request.httpBody = postData
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+==================================================
+RESPONSE
+==================================================
+{
+  "object": "ChatPatched"
+}

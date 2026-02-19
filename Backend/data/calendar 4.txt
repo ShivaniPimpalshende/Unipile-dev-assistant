@@ -1,0 +1,318 @@
+API Name: Create an event
+
+Method:
+POST
+
+Endpoint:
+https://{subdomain}.unipile.com:{port}/api/v1/calendars/{calendar_id}/events
+
+Description:
+Create a calendar event
+
+--------------------------------------------------------------------
+PATH PARAMETERS
+--------------------------------------------------------------------
+- calendar_id ( the id of the calendar receiving the event )
+
+
+--------------------------------------------------------------------
+QUERY PARAMETERS
+--------------------------------------------------------------------
+- account_id ( the id of the account to use)
+
+--------------------------------------------------------------------
+BODY PARAMETERS
+--------------------------------------------------------------------
+- title ( the title of the event)
+- body ( the body of the event)
+- location (The location of the event)
+- transparency (The transparency of the event. opaque does block time on the calendar and is equivalent to setting Show me as to Busy in the Calendar UI. transparent does not block time on the calendar and is equivalent to setting Show me as to Available in the Calendar UI)
+- visibility (The visibility of the event)
+- conference
+- is_attendees_list_hidden (Is the attendees list hidden for attendees)
+- attendees
+- recurrence (List of RRULE, EXRULE, RDATE and EXDATE lines for a recurring event, as specified in RFC5545)
+- start (The start date and time of the event)
+- end (The end date and time of the event)
+- color (The color of the event
+Google Calendar: #7986CB, #33B679, #8E24AA, #E67C73, #F6BF26, #F4511E, #039BE5, #616161, #3F51B5, #0B8043, #D50000 )
+- notify (If true, send notifications about the event to invited attendees.
+Outlook Calendar: Not supported, this parameter will always be true)
+
+--------------------------------------------------------------------
+RESPONSES
+--------------------------------------------------------------------
+200 OK
+CREATED
+
+Response Object:
+- object: "CalendarEventCreated"
+- evet_id
+
+
+--------------------------------------------------------------------
+ERROR RESPONSES
+--------------------------------------------------------------------
+401 UNAUTHORIZED
+- Missing credentials - Type: "errors/missing_credentials"
+- Multiple sessions - Type: "errors/multiple_sessions"
+- Wrong account - Type: "errors/wrong_account"
+- Invalid credentials - Type: "errors/invalid_credentials"
+- Invalid proxy credentials - Type: "errors/invalid_proxy_credentials"
+- Invalid IMAP configuration - Type: "errors/invalid_imap_configuration"
+- Invalid SMTP configuration - Type: "errors/invalid_smtp_configuration"
+- Invalid checkpoint solution - Type: "errors/invalid_checkpoint_solution"
+- Checkpoint error - Type: "errors/checkpoint_error"
+- Expired credentials - Type: "errors/expired_credentials"
+- Expired link - Type: "errors/expired_link"
+- Insufficient privileges - Type: "errors/insufficient_privileges"
+- Disconnected account - Type: "errors/disconnected_account".
+- Disconnected feature - Type: "errors/disconnected_feature"
+
+404 NOT FOUND
+
+403 FORBIDDEN
+- Insufficient permissions - Type: "errors/insufficient_permissions"
+- Account restricted - Type: "errors/account_restricted"
+- Account mismatch - Type: "errors/account_mismatch"
+- Unknown authentication context - Type: "errors/unknown_authentication_context"
+- Session mismatch - Type: "errors/session_mismatch"
+- Feature not subscribed - Type: "errors/feature_not_subscribed"
+- Subscription required - Type: "errors/subscription_required"
+- Resource access restricted - Type: "errors/resource_access_restricted"
+- Action required - Type: "errors/action_required"
+
+500 INTERNAL SERVER ERROR
+- Unexpected error - Type: "errors/unexpected_error"
+- Provider error - Type: "errors/provider_error"
+- Authentication intent error - Type: "errors/authentication_intent_error"
+
+501 NOT IMPLEMENTED
+
+503 SERVICE UNAVAILABLE
+- No client session - Type: "errors/no_client_session"
+- No channel - Type: "errors/no_channel"
+- Handler missing - Type: "errors/no_handler"
+- Network down - Type: "errors/network_down"
+- Service unavailable - Type: "errors/service_unavailable"
+
+504 GATEWAY TIMEOUT
+- Request timeout: errors/request_timeout
+
+--------------------------------------------------------------------
+REQUEST EXAMPLES  / Code
+--------------------------------------------------------------------
+Shell:
+curl --request POST \
+     --url https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events \
+     --header 'accept: application/json' \
+     --header 'content-type: application/json'
+
+Node:
+const url = 'https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events';
+const options = {
+  method: 'POST',
+  headers: {accept: 'application/json', 'content-type': 'application/json'}
+};
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
+
+
+Ruby:
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Post.new(url)
+request["accept"] = 'application/json'
+request["content-type"] = 'application/json'
+response = http.request(request)
+puts response.read_body
+
+
+PHP:
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('POST', 'https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events', [
+  'headers' => [
+    'accept' => 'application/json',
+    'content-type' => 'application/json',
+  ],
+]);
+echo $response->getBody();
+
+
+Python:
+import requests
+url = "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events"
+headers = {
+    "accept": "application/json",
+    "content-type": "application/json"
+}
+response = requests.post(url, headers=headers)
+print(response.text)
+
+
+C / C++:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);;
+
+
+C#:
+using RestSharp;
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+request.AddHeader("content-type", "application/json");
+var response = await client.PostAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+
+Clojure:
+(require '[clj-http.client :as client])
+(client/post "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events" {:content-type :json
+                                                                                   :accept :json})
+
+
+Go:
+package main
+import (
+	"fmt"
+	"net/http"
+	"io"
+)
+func main() {
+	url := "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events"
+	req, _ := http.NewRequest("POST", url, nil)
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("content-type", "application/json")
+	res, _ := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+	fmt.Println(string(body))
+}
+
+
+HTTP:
+POST /api/v1/calendars/calendar_id/events HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Host: api1.unipile.com:13111
+
+
+
+Java:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events")
+  .post(null)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "application/json")
+  .build();
+Response response = client.newCall(request).execute();
+
+
+Javascript:
+const options = {
+  method: 'POST',
+  headers: {accept: 'application/json', 'content-type': 'application/json'}
+};
+fetch('https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+
+Kotlin:
+val client = OkHttpClient()
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events")
+  .post(null)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+
+Objective-C:
+#import <Foundation/Foundation.h>
+NSDictionary *headers = @{ @"accept": @"application/json",
+                           @"content-type": @"application/json" };
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events"]                                                  cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                   timeoutInterval:10.0];
+[request setHTTPMethod:@"POST"];
+[request setAllHTTPHeaderFields:headers];
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                if (error) {
+                                                    NSLog(@"%@", error);
+                                                } else {
+                     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                                                    NSLog(@"%@", httpResponse);
+                                                }
+                                            }];
+[dataTask resume];
+
+
+O-Caml:
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events" in
+let headers = Header.add_list (Header.init ()) [
+  ("accept", "application/json");
+  ("content-type", "application/json");
+] in
+Client.call ~headers `POST uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)
+
+
+PowerShell:
+$headers=@{}
+$headers.Add("accept", "application/json")
+$headers.Add("content-type", "application/json")
+$response = Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events' -Method POST -Headers $headers
+
+
+R:
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events"
+response <- VERB("POST", url, content_type("application/json"), accept("application/json"))
+content(response, "text")
+
+
+Swift:
+import Foundation
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events")!
+var request = URLRequest(url: url)
+request.httpMethod = "POST"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = [
+  "accept": "application/json",
+  "content-type": "application/json"
+]
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+--------------------------------------------------------------------
+SUCCESS RESPONSE EXAMPLE (200)
+--------------------------------------------------------------------
+{
+  "object": "CalendarEventCreated",
+  "event_id": "string"
+}
+--------------------------------------------------------------------

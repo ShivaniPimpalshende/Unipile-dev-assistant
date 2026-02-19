@@ -1,12 +1,6 @@
-?	? Documentation	?
-
-
 
 Detecting Accepted Invitations
 Learn how to identify when a user accepts your LinkedIn invitation, enabling you to initiate subsequent actions.
-
-
-
 You can monitor acceptance through 3 methods:
 
 Webhook: "New relation"
@@ -15,7 +9,6 @@ Please note that this webhook is not real-time, as LinkedIn does not support rea
 You can create this webhook using the API. The webhook is called "USERS WEBHOOK", and the event type is "new_relation" (included by default in the USERS webhook): Create Webhook
 
 Create webhook
-
 curl --request POST \
 --url https://apiX.unipile.com:XXXX/api/v1/webhooks \
 --header 'Content-Type: application/json' \
@@ -28,14 +21,13 @@ curl --request POST \
 }
 ]
 }'
-
 Payload when new relation trigger
-
 {
-"event":"new_relation", "account_id":"SDF4tGaPSPSzNe1D1xsOs", "account_type":"LINKEDIN", "webhook_name":"", "user_full_name":"Julien Crépieux",
+"event":"new_relation", "account_id":"SDF4tGaPSPSzNe1D1xsOs", "account_type":"LINKEDIN", "webhook_name":"", "user_full_name":"Julien Crï¿½pieux",
 "user_provider_id":"ACoAAAh_Ffqss54sqAGQOD8u7sl5of04y9_3AwyM", "user_public_identifier":"julien-crepieux", "user_profile_url":"https://www.linkedin.com/in/julien-crepieux/", "user_picture_url":"https://media.licdn.com/dms/image/v2/D56S3AQHfRb8KQLb56A/profile-
 displayphoto-shrink_400_400/profile-displayphoto- shrink_400_400/0/14545ssssdde=45465465456&v=beta&t=B_Tqss45Go_ETxNHWbK31fFbHGXjreE1dcW- 1weM"
 }
+
 
 
 Real-Time Method: Applicable for Invitations who includes notes only
@@ -48,12 +40,6 @@ It's crucial to maintain a record of your sent invitations for effective compari
 To avoid overwhelming LinkedIn's limits or automation detection, it's recommended to space out these checks only few times by day with random delay, not at fixed time.
 By integrating these strategies, you can effectively detect when your LinkedIn invitations are accepted, paving the way for prompt and appropriate follow-up actions.
 
-
-? Updated 4 months ago
-
-
-
-? How to create an Outreach Sequence	Get Raw Data Route Example ?
 
 
 

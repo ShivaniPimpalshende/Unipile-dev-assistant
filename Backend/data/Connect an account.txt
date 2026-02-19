@@ -1,0 +1,260 @@
+API Name: Connect an Account (Native Authentication)
+
+Method:
+POST
+
+Endpoint:
+https://{subdomain}.unipile.com:{port}/api/v1/accounts
+
+Description:
+Link to Unipile an account of the given type and provider.
+
+--------------------------------------------------------------------
+GENERAL INFORMATION
+--------------------------------------------------------------------
+The parameters required to perform the authentication depend on the
+type of account you are trying to connect.
+
+Supported Providers:
+- LINKEDIN
+- MESSENGER
+- GOOGLE_OAUTH
+
+Proxy options and sync limits may be applied depending on provider
+support.
+
+--------------------------------------------------------------------
+LINKEDIN – BASIC AUTHENTICATION
+--------------------------------------------------------------------
+Authenticate using username and password.
+
+Required Parameters:
+- provider (string, required): LINKEDIN
+- username (string, required): email address or phone number
+- password (string, required)
+
+Optional Parameters:
+- country (string, length 2): ISO 3166-1 A-2 country code for proxy location
+- ip (string): IPv4 address to infer proxy location
+- disabled_features (array of strings): Features to disable
+- proxy.user_agent (string): Exact browser user agent string
+- recruiter_contract_id (string): Contract used with LinkedIn Recruiter
+
+Sync Limit:
+- sync_limit (object): Set limits for chats, messages, or both.
+  Chats limit applies per inbox. Messages limit applies per chat.
+  Default behavior applies if not provided.
+
+--------------------------------------------------------------------
+LINKEDIN – COOKIE AUTHENTICATION
+--------------------------------------------------------------------
+Authenticate using cookies.
+
+Required Parameters:
+- provider (string, required): LINKEDIN
+- access_token (string, required): LinkedIn access token (key "li_at")
+
+Optional Parameters:
+- premium_token (string): LinkedIn Recruiter/Sales Navigator cookie ("li_a")
+- country (string, length 2)
+- ip (string)
+- disabled_features (array of strings)
+- proxy.user_agent (string)
+- recruiter_contract_id (string)
+
+Sync Limit:
+- sync_limit (object): Limits for chats/messages; default behavior if not provided
+
+--------------------------------------------------------------------
+MESSENGER AUTHENTICATION
+--------------------------------------------------------------------
+Authenticate using username and password.
+
+Required Parameters:
+- provider (string, required): MESSENGER
+- username (string, required)
+- password (string, required)
+
+Optional Parameters:
+- country (string, length 2)
+- ip (string)
+- disabled_features (array of strings)
+
+Sync Limit:
+- sync_limit (object): Partial support depending on provider
+
+--------------------------------------------------------------------
+GMAIL (GOOGLE OAUTH) AUTHENTICATION
+--------------------------------------------------------------------
+Authenticate using Google OAuth.
+
+Required Parameters:
+- provider (string, required): GOOGLE_OAUTH
+- refresh_token (string, required)
+- access_token (string, required)
+
+Optional Parameters:
+- country (string, length 2)
+- ip (string)
+- disabled_features (array of strings)
+- sync_limit (string): Allowed value: NO_HISTORY_SYNC
+
+--------------------------------------------------------------------
+REQUEST EXAMPLES
+--------------------------------------------------------------------
+Shell:
+curl --request POST \
+  --url https://api1.unipile.com:13111/api/v1/accounts \
+  --header 'accept: application/json' \
+  --header 'content-type: application/json' \
+  --data '
+{
+  "provider": "GOOGLE_OAUTH"
+}
+'
+
+Node (LinkedIn):
+import { UnipileClient } from "unipile-node-sdk"
+const client = new UnipileClient(BASE_URL, ACCESS_TOKEN)
+const response = await client.account.connect({
+    username: "your Linkedin username",
+    password: "your Linkedin password",
+    provider: "LINKEDIN"
+})
+
+Ruby:
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/accounts")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Post.new(url)
+request["accept"] = 'application/json'
+request["content-type"] = 'application/json'
+response = http.request(request)
+puts response.read_body
+
+PHP:
+$client = new \GuzzleHttp\Client()
+$response = $client->request('POST', 'https://api1.unipile.com:13111/api/v1/accounts', [
+  'headers' => ['accept' => 'application/json','content-type' => 'application/json']
+])
+echo $response->getBody()
+
+Swift:
+import Foundation
+let url = URL(string:"https://api1.unipile.com:13111/api/v1/accounts")!
+var request = URLRequest(url:url)
+request.httpMethod="POST"
+request.allHTTPHeaderFields=["accept":"application/json","content-type":"application/json"]
+let (data,_) = try await URLSession.shared.data(for:request)
+print(String(decoding:data,as:UTF8.self))
+
+C / C++:
+CURL *hnd = curl_easy_init()
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST")
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout)
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/accounts")
+struct curl_slist *headers = NULL
+headers = curl_slist_append(headers, "accept: application/json")
+headers = curl_slist_append(headers, "content-type: application/json")
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers)
+CURLcode ret = curl_easy_perform(hnd)
+
+C#:
+using RestSharp;
+var client = new RestClient("https://api1.unipile.com:13111/api/v1/accounts")
+var request = new RestRequest("")
+request.AddHeader("accept", "application/json")
+request.AddHeader("content-type", "application/json")
+var response = await client.PostAsync(request)
+Console.WriteLine("{0}", response.Content)
+
+Clojure:
+(require '[clj-http.client :as client])
+(client/post "https://api1.unipile.com:13111/api/v1/accounts" {:headers {:content-type "application/json"} :accept :json})
+
+Go:
+import ("fmt"; "net/http"; "io")
+req, _ := http.NewRequest("POST", "https://api1.unipile.com:13111/api/v1/accounts", nil)
+req.Header.Add("accept","application/json")
+req.Header.Add("content-type","application/json")
+res, _ := http.DefaultClient.Do(req)
+defer res.Body.Close()
+body,_ := io.ReadAll(res.Body)
+fmt.Println(string(body))
+
+HTTP:
+POST /api/v1/accounts HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Host: api1.unipile.com:13111
+
+Java:
+OkHttpClient client = new OkHttpClient()
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/accounts")
+  .post(null)
+  .addHeader("accept","application/json")
+  .addHeader("content-type","application/json")
+  .build()
+Response response = client.newCall(request).execute()
+
+JavaScript:
+fetch('https://api1.unipile.com:13111/api/v1/accounts',{
+  method:'POST',
+  headers:{accept:'application/json','content-type':'application/json'}
+})
+.then(res=>res.json()).then(res=>console.log(res)).catch(err=>console.error(err))
+
+Kotlin:
+val client = OkHttpClient()
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/accounts")
+  .post(null)
+  .addHeader("accept","application/json")
+  .addHeader("content-type","application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+Objective-C:
+NSDictionary *headers=@{@"accept":@"application/json",@"content-type":@"application/json"};
+NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/accounts"]];
+[request setHTTPMethod:@"POST"];
+[request setAllHTTPHeaderFields:headers];
+NSURLSessionDataTask *task=[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
+  if(error){NSLog(@"%@",error);}else{NSLog(@"%@",response);}
+}];
+[task resume];
+
+OCaml:
+open Cohttp_lwt_unix
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/accounts" in
+let headers = Header.add_list (Header.init()) [("accept","application/json");("content-type","application/json")] in
+Client.call ~headers `POST uri
+
+PowerShell:
+$headers=@{}
+$headers.Add("accept","application/json")
+$headers.Add("content-type","application/json")
+$response=Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/accounts' -Method POST -Headers $headers
+
+Python:
+import requests
+url="https://api1.unipile.com:13111/api/v1/accounts"
+headers={"accept":"application/json","content-type":"application/json"}
+response=requests.post(url,headers=headers)
+print(response.text)
+
+R:
+library(httr)
+response<-VERB("POST","https://api1.unipile.com:13111/api/v1/accounts",content_type("application/octet-stream"),accept("application/json"))
+content(response,"text")
+
+--------------------------------------------------------------------
+RESPONSE EXAMPLE
+--------------------------------------------------------------------
+{
+  "object": "AccountCreated",
+  "account_id": "string"
+}

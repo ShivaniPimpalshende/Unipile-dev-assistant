@@ -1,10 +1,6 @@
 You have the ability to make search on Classic, Sales Navigator or Recruiter to get People, Companies, Jobs or Posts list result with same criteria of LinkedIn interface on behalf of each account depending LinkedIn subscription.
-
 That can be useful to extract list of person to start outreach sequence on your target, export list of companies in specific sector, location or other criteria, search for LinkedIn profile of someone with his name and company, list mutual relation with someone to ask warm intro, search for open profile in sales navigator, advanced candidate search in recruiter, search for posts contain specific keywords, and many other use case you can do manually on LinkedIn search can be automated.
-
 We propose two ways to perform search, you can copy past URL of search directly from your browser or you can construct parameters value on your app and send a request with all parameters value in your Unipile query.
-
 Here are some examples, but you can find the endpoint documentation with all parameters details here: Get Linkedin Search Parameters API & Perform a Linkedin Search API
-
 Please have a look on Linkedin limitations about this endpoint.
 

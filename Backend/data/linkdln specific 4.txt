@@ -1,0 +1,454 @@
+API Name: Retrieve a company profile
+
+Method:
+GET
+
+Endpoint:
+https://{subdomain}.unipile.com:{port}/api/v1/linkedin/company/{identifier}
+
+Description:
+Get a company profile from its name or ID.
+
+--------------------------------------------------------------------
+PATH PARAMETERS
+--------------------------------------------------------------------
+- identifier (The identifier of the company: either the public identifier, the ID or the URN)
+
+--------------------------------------------------------------------
+PATH PARAMETERS
+--------------------------------------------------------------------
+- account_id (The ID of the account to trigger the request from)
+
+--------------------------------------------------------------------
+RESPONSES
+--------------------------------------------------------------------
+200 OK
+The request succeeded 
+
+Response Object:
+- object: "CompanyProfile"
+- id
+- name
+- description
+- entity_urn
+- public_identifier
+- profile_url
+- tagline
+- followers_count
+- is_following
+- is_employee
+- hashtags
+- messaging
+- is_enabled
+- id
+- entity_urn
+- claimed
+- viewer_permissions
+- canMembersInviteToFollow
+- canReadContentSuggestions
+- canReadMessages
+- canUpdateOrganizationProfile
+- canCreateOrganicShare
+- canReadAdminDashboard
+- canReadOrganizationActivity
+- canEditCurators
+- canManageOrganizationalPageFollow
+- canReadOrganizationFollowerAnalytics
+- canInviteMemberToFollow
+- canReadOrganizationLeadsAnalytics
+- canEditPendingAdministrators
+- canManageMessagingAccess
+- canSeeEmployeeExperienceAsMember
+- canEmployeesInviteToFollow
+- canSeeOrganizationAdministrativePage
+- canManageAdminRoles
+- canEditOrganizationDetails
+- canApproveContent
+- canViewTeamPerformance
+- canManageOrganizationSettings
+- canAccessAdvancedAnalytics
+- canModerateComments
+- canCreateAds
+- canManageAdBudgets
+- canEditPageTheme 
+- canPublishNewsletters
+- canEditCustomTabs
+- canManageIntegrations
+- canAssignRoles
+- canApprovePendingMembers
+- canEditCareerPageSettings
+- canViewBillingInformation
+- organization_type
+- locations (array of objects)
+- is_headquarter
+- country
+- city
+- postalCode
+- street (array of strings)
+- id
+- name
+- public_identifier
+- profile_url
+- crunchbase_funding
+- last_updated_at
+- company_url
+- rounds
+
+
+--------------------------------------------------------------------
+ERROR RESPONSES
+--------------------------------------------------------------------
+401 UNAUTHORIZED
+
+403 FORBIDDEN
+- Insufficient permissions - Type: "errors/insufficient_permissions"
+- Account restricted - Type: "errors/account_restricted"
+- Account mismatch - Type: "errors/account_mismatch"
+- Unknown authentication context - Type: "errors/unknown_authentication_context"
+- Session mismatch - Type: "errors/session_mismatch"
+- Feature not subscribed - Type: "errors/feature_not_subscribed"
+- Subscription required - Type: "errors/subscription_required"
+- Resource access restricted - Type: "errors/resource_access_restricted"
+- Action required - Type: "errors/action_required"
+
+404 NOT FOUND
+
+422 UNPROCESSABLE ENTITY
+
+500 INTERNAL SERVER ERROR
+- Unexpected error - Type: "errors/unexpected_error"
+- Provider error - Type: "errors/provider_error"
+- Authentication intent error - Type: "errors/authentication_intent_error"
+
+503 SERVICE UNAVAILABLE
+No client session - Type: "errors/no_client_session"
+No channel - Type: "errors/no_channel"
+Handler missing - Type: "errors/no_handler"
+Network down - Type: "errors/network_down"
+Service unavailable - Type: "errors/service_unavailable"
+
+504 GATEWAY TIMEOUT
+- Request timeout: errors/request_timeout
+
+--------------------------------------------------------------------
+REQUEST EXAMPLES
+--------------------------------------------------------------------
+Shell:
+curl --request GET \
+     --url https://api1.unipile.com:13111/api/v1/linkedin/company/identifier \
+     --header 'accept: application/json'curl 
+
+Node:
+const url = 'https://api1.unipile.com:13111/api/v1/linkedin/company/identifier';
+const options = {method: 'GET', headers: {accept: 'application/json'}};
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
+
+Ruby:
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/linkedin/company/identifier")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Get.new(url)
+request["accept"] = 'application/json'
+response = http.request(request)
+puts response.read_body
+
+PHP:
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('GET', 'https://api1.unipile.com:13111/api/v1/linkedin/company/identifier', [
+  'headers' => [
+    'accept' => 'application/json',
+  ],
+]);
+echo $response->getBody();
+
+Python:
+import requests
+url = "https://api1.unipile.com:13111/api/v1/linkedin/company/identifier"
+headers = {"accept": "application/json"}
+response = requests.get(url, headers=headers)
+print(response.text)
+
+C / C++:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/linkedin/company/identifier");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);
+
+C#:
+using RestSharp;
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/linkedin/company/identifier");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+var response = await client.GetAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+
+Clojure:
+(require '[clj-http.client :as client])
+(client/get "https://api1.unipile.com:13111/api/v1/linkedin/company/identifier" {:accept :json})
+
+Go:
+package main
+import (
+	"fmt"
+	"net/http"
+	"io"
+)
+func main() {
+	url := "https://api1.unipile.com:13111/api/v1/linkedin/company/identifier"
+1``````````	``````````````````````````````
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Add("accept", "application/json")
+	res, _ := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+	fmt.Println(string(body))
+}
+
+
+HTTP:
+GET /api/v1/linkedin/company/identifier HTTP/1.1
+Accept: application/json
+Host: api1.unipile.com:13111
+
+Java:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/linkedin/company/identifier")
+  .get()
+  .addHeader("accept", "application/json")
+  .build();
+Response response = client.newCall(request).execute();
+
+Javascript:
+const options = {method: 'GET', headers: {accept: 'application/json'}};
+fetch('https://api1.unipile.com:13111/api/v1/linkedin/company/identifier', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+Kotlin:
+val client = OkHttpClient()
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/linkedin/company/identifier")
+  .get()
+  .addHeader("accept", "application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+Objective-C:
+#import <Foundation/Foundation.h>
+NSDictionary *headers = @{ @"accept": @"application/json" };
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/linkedin/company/identifier"]                                                    cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                   timeoutInterval:10.0];
+[request setHTTPMethod:@"GET"];
+[request setAllHTTPHeaderFields:headers];
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData *data, NSURLResponse                        *response, NSError *error) if (error) {
+                                          NSLog(@"%@", error);
+                                          } else {
+                                          NSHTTPURLResponse *httpResponse  = (NSHTTPURLResponse *) response;NSLog(@"%@", httpResponse);}
+                                 	}];
+[dataTask resume];
+
+O-Caml:
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/linkedin/company/identifier" in
+let headers = Header.add (Header.init ()) "accept" "application/json" in
+Client.call ~headers `GET uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)
+
+PowerShell:
+$headers=@{}
+$headers.Add("accept", "application/json")
+$response = Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/linkedin/company/identifier' -Method GET -Headers $headers
+
+R:
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/linkedin/company/identifier"
+response <- VERB("GET", url, content_type("application/octet-stream"), accept("application/json"))
+content(response, "text")
+
+Swift:
+import Foundation
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/linkedin/company/identifier")!
+var request = URLRequest(url: url)
+request.httpMethod = "GET"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = ["accept": "application/json"]
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+--------------------------------------------------------------------
+SUCCESS RESPONSE EXAMPLE (200)
+--------------------------------------------------------------------
+{
+  "object": "CompanyProfile",
+  "id": "string",
+  "name": "string",
+  "description": "string",
+  "entity_urn": "string",
+  "public_identifier": "string",
+  "profile_url": "string",
+  "tagline": "string",
+  "followers_count": 0,
+  "is_following": true,
+  "is_employee": true,
+  "hashtags": [
+    {
+      "title": "string"
+    }
+  ],
+  "messaging": {
+    "is_enabled": true,
+    "id": "string",
+    "entity_urn": "string"
+  },
+  "claimed": true,
+  "viewer_permissions": {
+    "canMembersInviteToFollow": true,
+    "canReadContentSuggestions": true,
+    "canReadMessages": true,
+    "canUpdateOrganizationProfile": true,
+    "canCreateOrganicShare": true,
+    "canReadAdminDashboard": true,
+    "canReadOrganizationActivity": true,
+    "canEditCurators": true,
+    "canManageOrganizationalPageFollow": true,
+    "canReadOrganizationFollowerAnalytics": true,
+    "canInviteMemberToFollow": true,
+    "canReadOrganizationLeadsAnalytics": true,
+    "canEditPendingAdministrators": true,
+    "canManageMessagingAccess": true,
+    "canSeeEmployeeExperienceAsMember": true,
+    "canEmployeesInviteToFollow": true,
+    "canSeeOrganizationAdministrativePage": true,
+    "canManageAdminRoles": true,
+    "canEditOrganizationDetails": true,
+    "canApproveContent": true,
+    "canViewTeamPerformance": true,
+    "canManageOrganizationSettings": true,
+    "canAccessAdvancedAnalytics": true,
+    "canModerateComments": true,
+    "canCreateAds": true,
+    "canManageAdBudgets": true,
+    "canEditPageTheme": true,
+    "canPublishNewsletters": true,
+    "canEditCustomTabs": true,
+    "canManageIntegrations": true,
+    "canAssignRoles": true,
+    "canApprovePendingMembers": true,
+    "canEditCareerPageSettings": true,
+    "canViewBillingInformation": true
+  },
+  "organization_type": "PUBLIC_COMPANY",
+  "locations": [
+    {
+      "is_headquarter": true,
+      "country": "string",
+      "city": "string",
+      "postalCode": "string",
+      "street": [
+        "string"
+      ],
+      "description": "string",
+      "area": "string"
+    }
+  ],
+  "logo": "string",
+  "localized_description": [
+    {
+      "additionalProp": {}
+    }
+  ],
+  "localized_name": [
+    {
+      "additionalProp": {}
+    }
+  ],
+  "localized_tagline": [
+    {
+      "additionalProp": {}
+    }
+  ],
+  "industry": [
+    "string"
+  ],
+  "activities": [
+    "string"
+  ],
+  "employee_count": 0,
+  "employee_count_range": {
+    "from": 0,
+    "to": 0
+  },
+  "website": "string",
+  "foundation_date": "string",
+  "phone": "string",
+  "insights": {
+    "employeesCount": {
+      "totalCount": 0,
+      "averageTenure": "string",
+      "employeesCountGraph": [
+        {
+          "date": "string",
+          "count": 0
+        }
+      ],
+      "growthGraph": [
+        {
+          "monthRange": 0,
+          "growthPercentage": 0
+        }
+      ]
+    }
+  },
+  "acquired_by": {
+    "id": "string",
+    "name": "string",
+    "public_identifier": "string",
+    "profile_url": "string"
+  },
+  "crunchbase_funding": {
+    "last_updated_at": "string",
+    "company_url": "string",
+    "rounds": {
+      "url": "string",
+      "total_count": 0,
+      "last_round": {
+        "announced_on": "string",
+        "url": "string",
+        "funding_type": "string",
+        "investors_count": 0,
+        "lead_investors": [
+          {
+            "name": "string",
+            "url": "string",
+            "logo": "string"
+          }
+        ],
+        "money_raised": {
+          "amount": 0,
+          "currency": "string"
+        }
+      }
+    }
+  }
+}
+--------------------------------------------------------------------

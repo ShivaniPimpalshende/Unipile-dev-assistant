@@ -1,0 +1,395 @@
+START A NEW CHAT
+----------------
+Method: POST
+URL: https://{subdomain}.unipile.com:{port}/api/v1/chats
+
+
+DESCRIPTION
+-----------
+Start a new conversation with one or more attendee.
+
+⚠️ Interactive documentation does not work for Linkedin specific parameters
+(child parameters not correctly applied in snippet),
+the correct format is:
+linkedin[inmail] = true
+linkedin[api] = ...
+
+
+MESSAGE (STRING)
+----------------
+The message that will start the new conversation.
+
+With LinkedIn recruiter, a range of HTML tags can be used directly
+in the body of the message to enhance the presentation.
+
+Supported HTML tags:
+- <strong>  → bold text
+- <em>      → italic text
+- <a href="www.my-link.com"> → external links
+- <ul>      → unordered lists
+- <ol>      → ordered lists
+- <li>      → list items
+
+Tags can be nested into each other if necessary.
+
+
+==================================================
+REQUEST EXAMPLES
+==================================================
+
+SHELL
+-----
+curl --request POST \
+     --url https://api1.unipile.com:13111/api/v1/chats \
+     --header 'accept: application/json' \
+     --header 'content-type: multipart/form-data'
+
+
+NODE
+----
+const formData = new FormData();
+const url = 'https://api1.unipile.com:13111/api/v1/chats';
+const options = {
+  method: 'POST',
+  headers: { accept: 'application/json' },
+  body: formData
+};
+
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
+
+
+RUBY
+----
+require 'uri'
+require 'net/http'
+
+url = URI("https://api1.unipile.com:13111/api/v1/chats")
+
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+
+request = Net::HTTP::Post.new(url)
+request["accept"] = 'application/json'
+request["content-type"] = 'multipart/form-data; boundary=---011000010111000001101001'
+request.body = "-----011000010111000001101001\r\n-----011000010111000001101001--"
+
+response = http.request(request)
+puts response.read_body
+
+
+PHP
+---
+<?php
+require_once('vendor/autoload.php');
+
+$client = new \GuzzleHttp\Client();
+
+$response = $client->request('POST', 'https://api1.unipile.com:13111/api/v1/chats', [
+  'headers' => [
+    'accept' => 'application/json',
+    'content-type' => 'multipart/form-data; boundary=---011000010111000001101001',
+  ],
+]);
+
+echo $response->getBody();
+
+
+R
+-
+library(httr)
+
+url <- "https://api1.unipile.com:13111/api/v1/chats"
+
+payload <- "-----011000010111000001101001\r\n-----011000010111000001101001--"
+
+encode <- "multipart"
+
+response <- VERB(
+  "POST",
+  url,
+  body = payload,
+  content_type("multipart/form-data"),
+  accept("application/json"),
+  encode = encode
+)
+
+content(response, "text")
+
+
+C
+-
+CURL *hnd = curl_easy_init();
+
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/chats");
+
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: multipart/form-data; boundary=---011000010111000001101001");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+curl_easy_setopt(hnd, CURLOPT_POSTFIELDS,
+"-----011000010111000001101001\r\n-----011000010111000001101001--");
+
+CURLcode ret = curl_easy_perform(hnd);
+
+
+C#
+--
+using RestSharp;
+
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/chats");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AlwaysMultipartFormData = true;
+request.AddHeader("accept", "application/json");
+request.FormBoundary = "---011000010111000001101001";
+
+var response = await client.PostAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+
+C++
+---
+CURL *hnd = curl_easy_init();
+
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/chats");
+
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: multipart/form-data; boundary=---011000010111000001101001");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+curl_easy_setopt(hnd, CURLOPT_POSTFIELDS,
+"-----011000010111000001101001\r\n-----011000010111000001101001--");
+
+CURLcode ret = curl_easy_perform(hnd);
+
+
+CLOJURE
+-------
+(require '[clj-http.client :as client])
+
+(client/post
+ "https://api1.unipile.com:13111/api/v1/chats"
+ {:multipart []
+  :accept :json})
+
+
+GO
+--
+package main
+
+import (
+	"fmt"
+	"strings"
+	"net/http"
+	"io"
+)
+
+func main() {
+
+	url := "https://api1.unipile.com:13111/api/v1/chats"
+
+	payload := strings.NewReader(
+	"-----011000010111000001101001\r\n-----011000010111000001101001--")
+
+	req, _ := http.NewRequest("POST", url, payload)
+
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("content-type", "multipart/form-data; boundary=---011000010111000001101001")
+
+	res, _ := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+
+	fmt.Println(string(body))
+}
+
+
+HTTP
+----
+POST /api/v1/chats HTTP/1.1
+Host: api1.unipile.com:13111
+Accept: application/json
+Content-Type: multipart/form-data; boundary=---011000010111000001101001
+Content-Length: 62
+
+-----011000010111000001101001
+-----011000010111000001101001--
+
+
+JAVA
+----
+OkHttpClient client = new OkHttpClient();
+
+MediaType mediaType =
+MediaType.parse("multipart/form-data; boundary=---011000010111000001101001");
+
+RequestBody body =
+RequestBody.create(mediaType,
+"-----011000010111000001101001\r\n-----011000010111000001101001--");
+
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/chats")
+  .post(body)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "multipart/form-data; boundary=---011000010111000001101001")
+  .build();
+
+Response response = client.newCall(request).execute();
+
+
+JAVASCRIPT
+----------
+const form = new FormData();
+
+const options = {
+  method: 'POST',
+  headers: { accept: 'application/json' },
+  body: form
+};
+
+fetch('https://api1.unipile.com:13111/api/v1/chats', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+
+KOTLIN
+------
+val client = OkHttpClient()
+
+val mediaType =
+MediaType.parse("multipart/form-data; boundary=---011000010111000001101001")
+
+val body = RequestBody.create(
+  mediaType,
+  "-----011000010111000001101001\r\n-----011000010111000001101001--"
+)
+
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/chats")
+  .post(body)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "multipart/form-data; boundary=---011000010111000001101001")
+  .build()
+
+val response = client.newCall(request).execute()
+
+
+OBJECTIVE-C
+-----------
+#import <Foundation/Foundation.h>
+
+NSDictionary *headers = @{
+  @"accept": @"application/json",
+  @"content-type": @"multipart/form-data; boundary=---011000010111000001101001"
+};
+
+NSArray *parameters = @[];
+NSString *boundary = @"---011000010111000001101001";
+
+NSMutableString *body = [NSMutableString string];
+[body appendFormat:@"\r\n--%@--\r\n", boundary];
+
+NSData *postData = [body dataUsingEncoding:NSUTF8StringEncoding];
+
+NSMutableURLRequest *request =
+[NSMutableURLRequest requestWithURL:
+ [NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/chats"]];
+
+[request setHTTPMethod:@"POST"];
+[request setAllHTTPHeaderFields:headers];
+[request setHTTPBody:postData];
+
+
+OCAML
+-----
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+
+let uri =
+Uri.of_string "https://api1.unipile.com:13111/api/v1/chats"
+
+let headers =
+Header.add_list (Header.init ()) [
+  ("accept", "application/json");
+  ("content-type", "multipart/form-data; boundary=---011000010111000001101001");
+]
+
+let body =
+Cohttp_lwt_body.of_string
+"-----011000010111000001101001\r\n-----011000010111000001101001--"
+
+Client.call ~headers ~body `POST uri
+
+
+POWERSHELL
+----------
+$headers=@{}
+$headers.Add("accept", "application/json")
+$headers.Add("content-type", "multipart/form-data; boundary=---011000010111000001101001")
+
+$response = Invoke-WebRequest `
+  -Uri 'https://api1.unipile.com:13111/api/v1/chats' `
+  -Method POST `
+  -Headers $headers `
+  -ContentType 'multipart/form-data; boundary=---011000010111000001101001' `
+  -Body '-----011000010111000001101001
+-----011000010111000001101001--'
+
+
+PYTHON
+------
+import requests
+
+url = "https://api1.unipile.com:13111/api/v1/chats"
+
+payload = "-----011000010111000001101001\r\n-----011000010111000001101001--"
+headers = {
+    "accept": "application/json",
+    "content-type": "multipart/form-data; boundary=---011000010111000001101001"
+}
+
+response = requests.post(url, data=payload, headers=headers)
+print(response.text)
+
+
+SWIFT
+-----
+import Foundation
+
+let parameters = []
+let boundary = "---011000010111000001101001"
+
+var body = ""
+let postData = Data(body.utf8)
+
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/chats")!
+var request = URLRequest(url: url)
+request.httpMethod = "POST"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = [
+  "accept": "application/json",
+  "content-type": "multipart/form-data; boundary=---011000010111000001101001"
+]
+request.httpBody = postData
+
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+RESPONSE:
+{
+  "object": "ChatStarted",
+  "chat_id": "string",
+  "message_id": "string"
+}

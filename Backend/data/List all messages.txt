@@ -1,0 +1,434 @@
+List all messages
+get
+https://{subdomain}.unipile.com:{port}/api/v1/messages
+
+Returns a list of messages. Some optional parameters are available to filter the results.
+
+Query Params
+cursor
+string
+length ≥ 1
+A cursor for pagination purposes. To get the next page of entries, you need to make a new request and fulfill this field with the cursor received in the preceding request. This process should be repeated until all entries have been retrieved.
+
+before
+string
+A filter to target items created before the datetime (exclusive). Must be an ISO 8601 UTC datetime (YYYY-MM-DDTHH:MM:SS.sssZ).
+
+after
+string
+A filter to target items created after the datetime (exclusive). Must be an ISO 8601 UTC datetime (YYYY-MM-DDTHH:MM:SS.sssZ).
+
+limit
+integer
+1 to 250
+A limit for the number of items returned in the response. The value can be set between 1 and 250.
+
+sender_id
+string
+A filter to target messages received from a certain sender. The id of the sender targeted.
+
+account_id
+string
+A filter to target messages received in a certain linked account. The id of the account targeted.
+
+REQUEST EXAMPLES:
+
+Shell:
+curl --request GET \
+     --url https://api1.unipile.com:13111/api/v1/messages \
+     --header 'accept: application/json'
+
+
+Node:
+import { UnipileClient } from "unipile-node-sdk"
+const BASE_URL = "your base url"
+const ACCESS_TOKEN = "your access token"
+try {
+	const client = new UnipileClient(BASE_URL, ACCESS_TOKEN)
+	const response = await client.messaging.getAllMessages()
+} catch (error) {
+	console.log(error)
+}
+
+
+Ruby:
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/messages")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Get.new(url)
+request["accept"] = 'application/json'
+response = http.request(request)
+puts response.read_body
+
+
+PHP:
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('GET', 'https://api1.unipile.com:13111/api/v1/messages', [
+  'headers' => [
+    'accept' => 'application/json',
+  ],
+]);
+echo $response->getBody();
+
+
+R:
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/messages"
+response <- VERB("GET", url, content_type("application/octet-stream"), accept("application/json"))
+content(response, "text")
+
+
+C:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/messages");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);
+
+
+C#:
+using RestSharp;
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/messages");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+var response = await client.GetAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+
+C++:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/messages");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);
+
+
+Clojure:
+(require '[clj-http.client :as client])
+(client/get "https://api1.unipile.com:13111/api/v1/messages" {:accept :json})
+
+
+Go:
+package main
+import (
+	"fmt"
+	"net/http"
+	"io"
+)
+func main() {
+	url := "https://api1.unipile.com:13111/api/v1/messages"
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Add("accept", "application/json")
+	res, _ := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+	fmt.Println(string(body))
+}
+
+
+HTTP:
+GET /api/v1/messages HTTP/1.1
+Accept: application/json
+Host: api1.unipile.com:13111
+
+
+Java:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/messages")
+  .get()
+  .addHeader("accept", "application/json")
+  .build();
+Response response = client.newCall(request).execute();
+
+
+JavaScript:
+const options = {method: 'GET', headers: {accept: 'application/json'}};
+fetch('https://api1.unipile.com:13111/api/v1/messages', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+
+Kotlin:
+val client = OkHttpClient()
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/messages")
+  .get()
+  .addHeader("accept", "application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+
+Objective-C:
+#import <Foundation/Foundation.h>
+NSDictionary *headers = @{ @"accept": @"application/json" };
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/messages"]
+                                                       cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                   timeoutInterval:10.0];
+[request setHTTPMethod:@"GET"];
+[request setAllHTTPHeaderFields:headers];
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                if (error) {
+                                                    NSLog(@"%@", error);
+                                                } else {
+                                                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                                                    NSLog(@"%@", httpResponse);
+                                                }
+                                            }];
+[dataTask resume];
+
+
+OCaml:
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/messages" in
+let headers = Header.add (Header.init ()) "accept" "application/json" in
+Client.call ~headers `GET uri
+>>= fun (res, body_stream) -> 
+  (* Do stuff with the result *)
+
+
+PowerShell:
+$headers=@{}
+$headers.Add("accept", "application/json")
+$response = Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/messages' -Method GET -Headers $headers
+
+Python:
+import requests
+url = "https://api1.unipile.com:13111/api/v1/messages"
+headers = {"accept": "application/json"}
+response = requests.get(url, headers=headers)
+print(response.text)
+
+
+Swift:
+import Foundation
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/messages")!
+var request = URLRequest(url: url)
+request.httpMethod = "GET"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = ["accept": "application/json"]
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+
+RESPONSE:
+{
+  "object": "MessageList",
+  "items": [
+    {
+      "object": "Message",
+      "provider_id": "string",
+      "sender_id": "string",
+      "text": "string",
+      "attachments": [
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "img",
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "sticker": true
+        },
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "video",
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "gif": true
+        },
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "audio",
+          "duration": 0,
+          "voice_note": true
+        },
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "file",
+          "file_name": "string"
+        },
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "linkedin_post"
+        },
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "video_meeting",
+          "starts_at": 0,
+          "expires_at": 0,
+          "time_range": 0
+        }
+      ],
+      "id": "string",
+      "account_id": "string",
+      "chat_id": "string",
+      "chat_provider_id": "string",
+      "timestamp": "string",
+      "is_sender": 0,
+      "quoted": {
+        "provider_id": "string",
+        "sender_id": "string",
+        "text": "string",
+        "attachments": [
+          {
+            "id": "string",
+            "file_size": 0,
+            "unavailable": true,
+            "mimetype": "string",
+            "url": "string",
+            "url_expires_at": 0,
+            "type": "img",
+            "size": {
+              "width": 0,
+              "height": 0
+            },
+            "sticker": true
+          },
+          {
+            "id": "string",
+            "file_size": 0,
+            "unavailable": true,
+            "mimetype": "string",
+            "url": "string",
+            "url_expires_at": 0,
+            "type": "video",
+            "size": {
+              "width": 0,
+              "height": 0
+            },
+            "gif": true
+          },
+          {
+            "id": "string",
+            "file_size": 0,
+            "unavailable": true,
+            "mimetype": "string",
+            "url": "string",
+            "url_expires_at": 0,
+            "type": "audio",
+            "duration": 0,
+            "voice_note": true
+          },
+          {
+            "id": "string",
+            "file_size": 0,
+            "unavailable": true,
+            "mimetype": "string",
+            "url": "string",
+            "url_expires_at": 0,
+            "type": "file",
+            "file_name": "string"
+          },
+          {
+            "id": "string",
+            "file_size": 0,
+            "unavailable": true,
+            "mimetype": "string",
+            "url": "string",
+            "url_expires_at": 0,
+            "type": "linkedin_post"
+          },
+          {
+            "id": "string",
+            "file_size": 0,
+            "unavailable": true,
+            "mimetype": "string",
+            "url": "string",
+            "url_expires_at": 0,
+            "type": "video_meeting",
+            "starts_at": 0,
+            "expires_at": 0,
+            "time_range": 0
+          }
+        ]
+      },
+      "reactions": [
+        {
+          "value": "string",
+          "sender_id": "string",
+          "is_sender": true
+        }
+      ],
+      "seen": 0,
+      "seen_by": {
+        "additionalProp": {}
+      },
+      "hidden": 0,
+      "deleted": 0,
+      "edited": 0,
+      "is_event": 0,
+      "delivered": 0,
+      "behavior": 0,
+      "event_type": 0,
+      "original": "string",
+      "replies": 0,
+      "reply_by": [
+        "string"
+      ],
+      "parent": "string",
+      "sender_attendee_id": "string",
+      "subject": "string",
+      "message_type": "MESSAGE",
+      "attendee_type": "MEMBER",
+      "attendee_distance": 1,
+      "sender_urn": "string",
+      "reply_to": {
+        "id": "string",
+        "provider_id": "string",
+        "timestamp": "string",
+        "sender_attendee_id": "string",
+        "sender_id": "string",
+        "text": "string"
+      }
+    }
+  ]
+}

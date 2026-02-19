@@ -1,0 +1,132 @@
+API Name: Solve a Code Checkpoint
+
+Method:
+POST
+
+Endpoint:
+https://{subdomain}.unipile.com:{port}/api/v1/accounts/checkpoint
+
+Description:
+Solve a checkpoint (2FA or OTP) encountered during native authentication for a provider. The code can be obtained via SMS, email, or an authenticator app.
+
+--------------------------------------------------------------------
+REQUEST EXAMPLES
+--------------------------------------------------------------------
+Shell (Python requests):
+import requests
+
+url = "https://api1.unipile.com:13111/api/v1/accounts/checkpoint"
+payload = { "provider": "LINKEDIN" }
+headers = {"accept":"application/json","content-type":"application/json"}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.text)
+
+Node:
+// Linkedin example
+import { UnipileClient } from "unipile-node-sdk"
+const BASE_URL = "your base url"
+const ACCESS_TOKEN = "your access token"
+const account_id = "account id"
+const provider = "LINKEDIN"
+const code = "2FA/OTP code"
+try {
+    const client = new UnipileClient(BASE_URL, ACCESS_TOKEN)
+    const response = await client.account.solveCodeCheckpoint({account_id, provider, code})
+    console.log(response)
+} catch (error) {
+    console.log(error)
+}
+
+
+Ruby:
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/accounts/checkpoint")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Post.new(url)
+request["accept"] = 'application/json'
+request["content-type"] = 'application/json'
+request.body = "{\"provider\":\"LINKEDIN\"}"
+response = http.request(request)
+puts response.read_body
+
+PHP:
+$client = new \GuzzleHttp\Client()
+$response = $client->request('POST','https://api1.unipile.com:13111/api/v1/accounts/checkpoint',[
+    'body'=>'{"provider":"LINKEDIN"}',
+    'headers'=>['accept'=>'application/json','content-type'=>'application/json']
+])
+echo $response->getBody()
+
+
+Python:
+import requests
+url = "https://api1.unipile.com:13111/api/v1/accounts/checkpoint"
+payload = { "provider": "LINKEDIN" }
+headers = {"accept":"application/json","content-type":"application/json"}
+response = requests.post(url, json=payload, headers=headers)
+print(response.text)
+
+
+JavaScript:
+fetch('https://api1.unipile.com:13111/api/v1/accounts/checkpoint', {
+    method: 'POST',
+    headers: {'accept':'application/json','content-type':'application/json'},
+    body: JSON.stringify({provider:'LINKEDIN'})
+})
+.then(res => res.json())
+.then(res => console.log(res))
+.catch(err => console.error(err))
+
+C#:
+using RestSharp;
+var client = new RestClient("https://api1.unipile.com:13111/api/v1/accounts/checkpoint");
+var request = new RestRequest("");
+request.AddHeader("accept","application/json");
+request.AddJsonBody("{\"provider\":\"LINKEDIN\"}", false);
+var response = await client.PostAsync(request);
+Console.WriteLine("{0}", response.Content)
+
+Go:
+import("fmt","strings","net/http","io")
+payload := strings.NewReader("{\"provider\":\"LINKEDIN\"}")
+req,_ := http.NewRequest("POST","https://api1.unipile.com:13111/api/v1/accounts/checkpoint",payload)
+req.Header.Add("accept","application/json")
+req.Header.Add("content-type","application/json")
+res,_ := http.DefaultClient.Do(req)
+defer res.Body.Close()
+body,_ := io.ReadAll(res.Body)
+fmt.Println(string(body))
+
+Java:
+OkHttpClient client = new OkHttpClient()
+MediaType mediaType = MediaType.parse("application/json")
+RequestBody body = RequestBody.create(mediaType,"{\"provider\":\"LINKEDIN\"}")
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/accounts/checkpoint")
+  .post(body)
+  .addHeader("accept","application/json")
+  .addHeader("content-type","application/json")
+  .build()
+Response response = client.newCall(request).execute()
+
+Swift:
+import Foundation
+let parameters = ["provider":"LINKEDIN"] as [String:Any?]
+let postData = try JSONSerialization.data(withJSONObject:parameters, options:[])
+let url = URL(string:"https://api1.unipile.com:13111/api/v1/accounts/checkpoint")!
+var request = URLRequest(url:url)
+request.httpMethod="POST"
+request.allHTTPHeaderFields=["accept":"application/json","content-type":"application/json"]
+request.httpBody=postData
+let (data,_) = try await URLSession.shared.data(for:request)
+print(String(decoding:data,as:UTF8.self))
+
+Response Example:
+
+{
+  "object": "AccountCreated",
+  "account_id": "string"
+}

@@ -6,3 +6,8 @@ langchain
 google-genai
 scikit-learn
 faiss-cpu
+pymongo
+python-dotenv
+fastapi
+uvicorn
+

@@ -1,0 +1,182 @@
+API Name: Retrieve an Account
+
+Method:
+GET
+
+Endpoint:
+https://{subdomain}.unipile.com:{port}/api/v1/accounts/{id}
+
+Description:
+Retrieve the details of an account.
+
+--------------------------------------------------------------------
+REQUEST EXAMPLES
+--------------------------------------------------------------------
+Shell:
+curl --request GET \
+     --url https://api1.unipile.com:13111/api/v1/accounts/id \
+     --header 'accept: application/json'
+
+Node:
+import { UnipileClient } from "unipile-node-sdk"
+const BASE_URL = "your base url"
+const ACCESS_TOKEN = "your access token"
+const account_id = "account id"
+try {
+    const client = new UnipileClient(BASE_URL, ACCESS_TOKEN)
+    const response = await client.account.getOne(account_id)
+} catch (error) {
+    console.log(error)
+}
+
+
+Ruby:
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/accounts/id")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Get.new(url)
+request["accept"] = 'application/json'
+response = http.request(request)
+puts response.read_body
+
+PHP:
+$client = new \GuzzleHttp\Client()
+$response = $client->request('GET', 'https://api1.unipile.com:13111/api/v1/accounts/id', [
+  'headers' => ['accept' => 'application/json']
+])
+echo $response->getBody()
+
+R:
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/accounts/id"
+response <- VERB("GET", url, content_type("application/octet-stream"), accept("application/json"))
+content(response, "text")
+
+C / C++:
+CURL *hnd = curl_easy_init()
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET")
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout)
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/accounts/id")
+struct curl_slist *headers = NULL
+headers = curl_slist_append(headers, "accept: application/json")
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers)
+CURLcode ret = curl_easy_perform(hnd)
+
+C#:
+using RestSharp
+var client = new RestClient("https://api1.unipile.com:13111/api/v1/accounts/id")
+var request = new RestRequest("")
+request.AddHeader("accept", "application/json")
+var response = await client.GetAsync(request)
+Console.WriteLine("{0}", response.Content)
+
+Go:
+import ("fmt"; "net/http"; "io")
+req, _ := http.NewRequest("GET", "https://api1.unipile.com:13111/api/v1/accounts/id", nil)
+req.Header.Add("accept","application/json")
+res, _ := http.DefaultClient.Do(req)
+defer res.Body.Close()
+body,_ := io.ReadAll(res.Body)
+fmt.Println(string(body))
+
+Clojure:
+(require '[clj-http.client :as client])
+(client/get "https://api1.unipile.com:13111/api/v1/accounts/id" {:accept :json})
+
+HTTP:
+GET /api/v1/accounts/id HTTP/1.1
+Accept: application/json
+Host: api1.unipile.com:13111
+
+Java:
+OkHttpClient client = new OkHttpClient()
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/accounts/id")
+  .get()
+  .addHeader("accept","application/json")
+  .build()
+Response response = client.newCall(request).execute()
+
+JavaScript:
+fetch('https://api1.unipile.com:13111/api/v1/accounts/id',{
+  method:'GET',
+  headers:{accept:'application/json'}
+})
+.then(res=>res.json()).then(res=>console.log(res)).catch(err=>console.error(err))
+
+Kotlin:
+val client = OkHttpClient()
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/accounts/id")
+  .get()
+  .addHeader("accept","application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+Objective-C:
+NSDictionary *headers=@{@"accept":@"application/json"};
+NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/accounts/id"]];
+[request setHTTPMethod:@"GET"];
+[request setAllHTTPHeaderFields:headers];
+NSURLSessionDataTask *task=[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
+  if(error){NSLog(@"%@",error);}else{NSLog(@"%@",response);}
+}];
+[task resume];
+
+OCaml:
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/accounts/id" in
+let headers = Header.add (Header.init ()) "accept" "application/json" in
+Client.call ~headers `GET uri
+
+PowerShell:
+$headers=@{}
+$headers.Add("accept","application/json")
+$response=Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/accounts/id' -Method GET -Headers $headers
+
+Python:
+import requests
+url="https://api1.unipile.com:13111/api/v1/accounts/id"
+headers={"accept":"application/json"}
+response=requests.get(url,headers=headers)
+print(response.text)
+
+--------------------------------------------------------------------
+RESPONSE EXAMPLE
+--------------------------------------------------------------------
+{
+  "object": "Account",
+  "type": "MOBILE",
+  "connection_params": {
+    "im": {
+      "phone_number": "string",
+      "sim_serial_number": "string"
+    },
+    "call": {
+      "phone_number": "string",
+      "sim_serial_number": "string"
+    }
+  },
+  "last_fetched_at": "2025-12-31T23:59:59.999Z",
+  "id": "string",
+  "name": "string",
+  "created_at": "2025-12-31T23:59:59.999Z",
+  "current_signature": "string",
+  "signatures": [
+    {
+      "title": "string",
+      "content": "string"
+    }
+  ],
+  "groups": ["string"],
+  "sources": [
+    {
+      "id": "string",
+      "status": "OK"
+    }
+  ]
+}

@@ -1,22 +1,8 @@
-        Documentation                                                                      
-
- Send Email                                                                       Search
-
-
-
-
 Send Email
 Learn how to send messages with Unipile
-
-
-
 Feature available for :Google, Microsoft, IMAP
-
-
-Send an email
 Use the POST emails Method or use the appropriate SDK Method, to send an email to every recipient.
 
- cURL    JavaScript
 
                                                                                                      
   curl --request POST \
@@ -221,14 +207,4 @@ Send a plain text email
 
 
 
- Updated 18 days ago
-
-
-
- Email object                                                           Retrieving emails 
-
-
-
-
-                            Did this page help you?    Yes    No
-
+ 

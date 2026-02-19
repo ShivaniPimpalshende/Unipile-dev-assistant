@@ -1,0 +1,800 @@
+API Name: Perform Linkedin search
+
+Method:
+POST
+
+Endpoint:
+https://{subdomain}.unipile.com:{port}/api/v1/linkedin/search
+
+Description:
+Search people and companies from the Linkedin Classic as well as Sales Navigator APIs. Check out our Guide with examples to master LinkedIn search : https://developer.unipile.com/docs/linkedin-search
+
+--------------------------------------------------------------------
+QUERY PARAMETERS
+--------------------------------------------------------------------
+- cursor
+- limit
+- account_id
+
+--------------------------------------------------------------------
+BODY PARAMETERS
+--------------------------------------------------------------------
+Classic - People
+Classic - Companies
+Classic - POSTS
+Classic - JOBS
+Sales Navigator - People
+Sales Navigator - Companies
+Recruiter - People
+Search from URL
+Cursor
+
+--------------------------------------------------------------------
+RESPONSES
+--------------------------------------------------------------------
+200 OK
+The request succeeded 
+
+Response Object:
+- object: "LinkedinSearch"
+- items
+- config
+- paging
+- start
+- page_count
+- total_count
+- cursor
+
+--------------------------------------------------------------------
+ERROR RESPONSES
+--------------------------------------------------------------------
+400 BAD REQUEST
+
+401 UNAUTHORIZED
+
+403 FORBIDDEN
+- Insufficient permissions - Type: "errors/insufficient_permissions"
+- Account restricted - Type: "errors/account_restricted"
+- Account mismatch - Type: "errors/account_mismatch"
+- Unknown authentication context - Type: "errors/unknown_authentication_context"
+- Session mismatch - Type: "errors/session_mismatch"
+- Feature not subscribed - Type: "errors/feature_not_subscribed"
+- Subscription required - Type: "errors/subscription_required"
+- Resource access restricted - Type: "errors/resource_access_restricted"
+- Action required - Type: "errors/action_required"
+
+404 NOT FOUND
+
+500 INTERNAL SERVER ERROR
+- Unexpected error - Type: "errors/unexpected_error"
+- Provider error - Type: "errors/provider_error"
+- Authentication intent error - Type: "errors/authentication_intent_error"
+
+503 SERVICE UNAVAILABLE
+No client session - Type: "errors/no_client_session"
+No channel - Type: "errors/no_channel"
+Handler missing - Type: "errors/no_handler"
+Network down - Type: "errors/network_down"
+Service unavailable - Type: "errors/service_unavailable"
+
+504 GATEWAY TIMEOUT
+- Request timeout: errors/request_timeout
+
+--------------------------------------------------------------------
+REQUEST EXAMPLES
+--------------------------------------------------------------------
+Shell:
+curl --request POST \
+     --url https://api1.unipile.com:13111/api/v1/linkedin/search \
+     --header 'accept: application/json' \
+     --header 'content-type: application/json' \
+     --data '
+{
+  "api": "sales_navigator",
+  "category": "companies",
+  "annual_revenue": {
+    "min": 0,
+    "max": 0
+  }
+}
+'
+
+Node:
+const url = 'https://api1.unipile.com:13111/api/v1/linkedin/search';
+const options = {
+  method: 'POST',
+  headers: {accept: 'application/json', 'content-type': 'application/json'},
+  body: JSON.stringify({
+    api: 'sales_navigator',
+    category: 'companies',
+    annual_revenue: {min: 0, max: 0}
+  })
+};
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
+
+Ruby:
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/linkedin/search")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Post.new(url)
+request["accept"] = 'application/json'
+request["content-type"] = 'application/json'
+request.body = "{\"api\":\"sales_navigator\",\"category\":\"companies\",\"annual_revenue\":{\"min\":0,\"max\":0}}"
+response = http.request(request)
+puts response.read_body
+
+PHP:
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('POST', 'https://api1.unipile.com:13111/api/v1/linkedin/search', [
+  'body' => '{"api":"sales_navigator","category":"companies","annual_revenue":{"min":0,"max":0}}',
+  'headers' => [
+    'accept' => 'application/json',
+    'content-type' => 'application/json',
+  ],
+]);
+echo $response->getBody();
+
+Python:
+import requests
+url = "https://api1.unipile.com:13111/api/v1/linkedin/search"
+payload = {
+    "api": "sales_navigator",
+    "category": "companies",
+    "annual_revenue": {
+        "min": 0,
+        "max": 0
+    }
+}
+headers = {
+    "accept": "application/json",
+    "content-type": "application/json"
+}
+response = requests.post(url, json=payload, headers=headers)
+print(response.text)
+
+C / C++:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/linkedin/search");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, "{\"api\":\"sales_navigator\",\"category\":\"companies\",\"annual_revenue\":{\"min\":0,\"max\":0}}");
+CURLcode ret = curl_easy_perform(hnd);
+
+C#:
+using RestSharp;
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/linkedin/search");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+request.AddJsonBody("{\"api\":\"sales_navigator\",\"category\":\"companies\",\"annual_revenue\":{\"min\":0,\"max\":0}}", false);
+var response = await client.PostAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+Clojure:
+(require '[clj-http.client :as client])
+(client/post "https://api1.unipile.com:13111/api/v1/linkedin/search" {:content-type :json
+                                                                      :form-params {:api "sales_navigator"
+                                                                  :category "companies"
+                                                                  :annual_revenue {:min 0
+                                                                                                                        :max 0}}
+                                                                      :accept :json})
+
+Go:
+package main
+import (
+	"fmt"
+	"strings"
+	"net/http"
+	"io"
+)
+func main() {
+	url := "https://api1.unipile.com:13111/api/v1/linkedin/search"
+	payload := strings.NewReader("{\"api\":\"sales_navigator\",\"category\":\"companies\",\"annual_revenue\":{\"min\":0,\"max\":0}}")
+	req, _ := http.NewRequest("POST", url, payload)
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("content-type", "application/json")
+	res, _ := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+	fmt.Println(string(body))
+}
+
+HTTP:
+POST /api/v1/linkedin/search HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Host: api1.unipile.com:13111
+Content-Length: 83
+{"api":"sales_navigator","category":"companies","annual_revenue":{"min":0,"max":0}}
+
+Java:
+OkHttpClient client = new OkHttpClient();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "{\"api\":\"sales_navigator\",\"category\":\"companies\",\"annual_revenue\":{\"min\":0,\"max\":0}}");
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/linkedin/search")
+  .post(body)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "application/json")
+  .build();
+Response response = client.newCall(request).execute();
+
+Javascript:
+const options = {
+  method: 'POST',
+  headers: {accept: 'application/json', 'content-type': 'application/json'},
+  body: JSON.stringify({
+    api: 'sales_navigator',
+    category: 'companies',
+    annual_revenue: {min: 0, max: 0}
+  })
+};
+fetch('https://api1.unipile.com:13111/api/v1/linkedin/search', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+Kotlin:
+val client = OkHttpClient()
+val mediaType = MediaType.parse("application/json")
+val body = RequestBody.create(mediaType, "{\"api\":\"sales_navigator\",\"category\":\"companies\",\"annual_revenue\":{\"min\":0,\"max\":0}}")
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/linkedin/search")
+  .post(body)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+Objective-C:
+#import <Foundation/Foundation.h>
+NSDictionary *headers = @{ @"accept": @"application/json",
+                           @"content-type": @"application/json" };
+NSDictionary *parameters = @{ @"api": @"sales_navigator",
+                              @"category": @"companies",
+                              @"annual_revenue": @{ @"min": @0, @"max": @0 } };
+NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:nil];
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/linkedin/search"]
+                                                       cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                   timeoutInterval:10.0];
+[request setHTTPMethod:@"POST"];
+[request setAllHTTPHeaderFields:headers];
+[request setHTTPBody:postData];
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                if (error) {
+                                                    NSLog(@"%@", error);
+                                                } else {
+                                                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                                                    NSLog(@"%@", httpResponse);
+                                                }
+                                            }];
+[dataTask resume];
+
+O-Caml:
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/linkedin/search" in
+let headers = Header.add_list (Header.init ()) [
+  ("accept", "application/json");
+  ("content-type", "application/json");
+] in
+let body = Cohttp_lwt_body.of_string "{\"api\":\"sales_navigator\",\"category\":\"companies\",\"annual_revenue\":{\"min\":0,\"max\":0}}" in
+Client.call ~headers ~body `POST uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)
+
+PowerShell:
+$headers=@{}
+$headers.Add("accept", "application/json")
+$headers.Add("content-type", "application/json")
+$response = Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/linkedin/search' -Method POST -Headers $headers -ContentType 'application/json' -Body '{"api":"sales_navigator","category":"companies","annual_revenue":{"min":0,"max":0}}'
+
+R:
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/linkedin/search"
+payload <- "{\"api\":\"sales_navigator\",\"category\":\"companies\",\"annual_revenue\":{\"min\":0,\"max\":0}}"
+encode <- "json"
+response <- VERB("POST", url, body = payload, content_type("application/json"), accept("application/json"), encode = encode)
+content(response, "text")
+
+Swift:
+import Foundation
+let parameters = [
+  "api": "sales_navigator",
+  "category": "companies",
+  "annual_revenue": [
+    "min": 0,
+    "max": 0
+  ]
+] as [String : Any?]
+let postData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/linkedin/search")!
+var request = URLRequest(url: url)
+request.httpMethod = "POST"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = [
+  "accept": "application/json",
+  "content-type": "application/json"
+]
+request.httpBody = postData
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+--------------------------------------------------------------------
+SUCCESS RESPONSE EXAMPLE (200)
+--------------------------------------------------------------------
+{
+  "object": "LinkedinSearch",
+  "items": [
+    {
+      "object": "SearchResult",
+      "type": "PEOPLE",
+      "id": "string",
+      "public_identifier": "string",
+      "public_profile_url": "string",
+      "profile_url": "string",
+      "profile_picture_url": "string",
+      "profile_picture_url_large": "string",
+      "member_urn": "string",
+      "name": "string",
+      "first_name": "string",
+      "last_name": "string",
+      "network_distance": "SELF",
+      "location": "string",
+      "industry": "string",
+      "keywords_match": "string",
+      "headline": "string",
+      "connections_count": 0,
+      "followers_count": 0,
+      "pending_invitation": true,
+      "can_send_inmail": true,
+      "hiddenCandidate": true,
+      "interestLikelihood": "string",
+      "privacySettings": {
+        "allowConnectionsBrowse": true,
+        "showPremiumSubscriberIcon": true
+      },
+      "skills": [
+        {
+          "name": "string",
+          "endorsement_count": 0
+        }
+      ],
+      "recruiter_candidate_id": "string",
+      "recruiter_pipeline_category": "string",
+      "premium": true,
+      "verified": true,
+      "open_profile": true,
+      "shared_connections_count": 0,
+      "recent_posts_count": 0,
+      "recently_hired": true,
+      "mentioned_in_the_news": true,
+      "last_outreach_activity": {
+        "type": "SEND_MESSAGE",
+        "performed_at": "string"
+      },
+      "current_positions": [
+        {
+          "company": "string",
+          "company_id": "string",
+          "company_url": "string",
+          "company_description": "string",
+          "company_headcount": {
+            "min": 0,
+            "max": 0
+          },
+          "logo": "string",
+          "description": "string",
+          "role": "string",
+          "location": "string",
+          "industry": [
+            "string"
+          ],
+          "tenure_at_role": {
+            "years": 0,
+            "months": 0
+          },
+          "tenure_at_company": {
+            "years": 0,
+            "months": 0
+          },
+          "start": {
+            "year": 0,
+            "month": 0
+          },
+          "end": {
+            "year": 0,
+            "month": 0
+          },
+          "skills": [
+            {
+              "name": "string",
+              "endorsement_count": 0
+            }
+          ]
+        }
+      ],
+      "education": [
+        {
+          "degree": "string",
+          "field_of_study": "string",
+          "school": "string",
+          "school_id": "string",
+          "start": {
+            "year": 0,
+            "month": 0
+          },
+          "end": {
+            "year": 0,
+            "month": 0
+          },
+          "school_details": {
+            "name": "string",
+            "employeeCount": 0,
+            "location": "string",
+            "description": "string",
+            "url": "string",
+            "logo": "string"
+          }
+        }
+      ],
+      "work_experience": [
+        {
+          "company": "string",
+          "company_id": "string",
+          "company_url": "string",
+          "company_description": "string",
+          "company_headcount": {
+            "min": 0,
+            "max": 0
+          },
+          "logo": "string",
+          "role": "string",
+          "industry": "string",
+          "description": "string",
+          "start": {
+            "year": 0,
+            "month": 0
+          },
+          "end": {
+            "year": 0,
+            "month": 0
+          },
+          "skills": [
+            {
+              "name": "string",
+              "endorsement_count": 0
+            }
+          ]
+        }
+      ],
+      "certifications": [
+        {
+          "name": "string",
+          "organization": "string",
+          "organization_id": "string",
+          "url": "string",
+          "start": {
+            "year": 0,
+            "month": "string"
+          },
+          "end": {
+            "year": 0,
+            "month": "string"
+          }
+        }
+      ],
+      "projects": [
+        {
+          "name": "string",
+          "description": "string",
+          "skills": [
+            "string"
+          ],
+          "start": {
+            "year": 0,
+            "month": "string"
+          },
+          "end": {
+            "year": 0,
+            "month": "string"
+          }
+        }
+      ],
+      "interests": "string",
+      "tags": [
+        {
+          "id": "string",
+          "name": "string"
+        }
+      ],
+      "notes": [
+        {
+          "project_id": "string",
+          "content": "string",
+          "created_at": 0,
+          "author": {
+            "id": "string",
+            "seat_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "public_profile_url": true
+          }
+        }
+      ]
+    },
+    {
+      "object": "SearchResult",
+      "type": "COMPANY",
+      "id": "string",
+      "name": "string",
+      "location": "string",
+      "profile_url": "string",
+      "industry": "string",
+      "summary": "string",
+      "followers_count": 0,
+      "job_offers_count": 0,
+      "headcount": "string",
+      "revenue_range": {
+        "min": 0,
+        "max": 0,
+        "currency": "string"
+      }
+    },
+    {
+      "object": "SearchResult",
+      "type": "POST",
+      "provider": "LINKEDIN",
+      "id": "string",
+      "social_id": "string",
+      "share_url": "string",
+      "title": "string",
+      "text": "string",
+      "date": "string",
+      "parsed_datetime": "string",
+      "reaction_counter": 0,
+      "comment_counter": 0,
+      "repost_counter": 0,
+      "impressions_counter": 0,
+      "user_reacted": "LIKE",
+      "author": {
+        "public_identifier": "string",
+        "id": "string",
+        "name": "string",
+        "is_company": true,
+        "headline": "string"
+      },
+      "written_by": {
+        "id": "string",
+        "public_identifier": "string",
+        "name": "string"
+      },
+      "permissions": {
+        "can_react": true,
+        "can_share": true,
+        "can_post_comments": true
+      },
+      "is_repost": true,
+      "repost_id": "string",
+      "reposted_by": {
+        "public_identifier": "string",
+        "id": "string",
+        "name": "string",
+        "is_company": true,
+        "headline": "string"
+      },
+      "repost_content": {
+        "id": "string",
+        "date": "string",
+        "parsed_datetime": "string",
+        "author": {
+          "public_identifier": "string",
+          "id": "string",
+          "name": "string",
+          "is_company": true,
+          "headline": "string"
+        },
+        "text": "string"
+      },
+      "mentions": [
+        {
+          "url": "string",
+          "start": 0,
+          "length": 0
+        }
+      ],
+      "attachments": [
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "img",
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "sticker": true
+        },
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "video",
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "gif": true
+        },
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "audio",
+          "duration": 0,
+          "voice_note": true
+        },
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "file",
+          "file_name": "string"
+        },
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "linkedin_post"
+        },
+        {
+          "id": "string",
+          "file_size": 0,
+          "unavailable": true,
+          "mimetype": "string",
+          "url": "string",
+          "url_expires_at": 0,
+          "type": "video_meeting",
+          "starts_at": 0,
+          "expires_at": 0,
+          "time_range": 0
+        }
+      ],
+      "poll": {
+        "id": "string",
+        "total_votes_count": 0,
+        "question": "string",
+        "is_open": true,
+        "options": [
+          {
+            "id": "string",
+            "text": "string",
+            "win": true,
+            "votes_count": 0
+          }
+        ]
+      },
+      "group": {
+        "id": "string",
+        "name": "string",
+        "private": true
+      },
+      "analytics": {
+        "impressions": 0,
+        "engagements": 0,
+        "engagement_rate": 0,
+        "clicks": 0,
+        "clickthrough_rate": 0,
+        "page_viewers_from_this_post": 0,
+        "followers_gained_from_this_post": 0,
+        "members_reached": 0
+      }
+    },
+    {
+      "object": "SearchResult",
+      "type": "JOB",
+      "id": "string",
+      "reference_id": "string",
+      "title": "string",
+      "location": "string",
+      "posted_at": "2025-12-31T23:59:59.999Z",
+      "reposted": true,
+      "url": "string",
+      "promoted": true,
+      "benefits": [
+        "string"
+      ],
+      "easy_apply": true,
+      "company": {
+        "id": "string",
+        "public_identifier": "string",
+        "name": "string",
+        "profile_url": "string",
+        "profile_picture_url": "string"
+      }
+    }
+  ],
+  "config": {
+    "params": {
+      "api": "classic",
+      "category": "people",
+      "keywords": "string",
+      "industry": [
+        "string"
+      ],
+      "location": [
+        "string"
+      ],
+      "profile_language": [
+        "string"
+      ],
+      "network_distance": [
+        1
+      ],
+      "company": [
+        "string"
+      ],
+      "past_company": [
+        "string"
+      ],
+      "school": [
+        "string"
+      ],
+      "service": [
+        "string"
+      ],
+      "connections_of": [
+        "string"
+      ],
+      "followers_of": [
+        "string"
+      ],
+      "open_to": [
+        "proBono"
+      ],
+      "advanced_keywords": {
+        "first_name": "string",
+        "last_name": "string",
+        "title": "string",
+        "company": "string",
+        "school": "string"
+      }
+    }
+  },
+  "paging": {
+    "start": 0,
+    "page_count": 0,
+    "total_count": 0
+  },
+  "cursor": "string"
+}
+--------------------------------------------------------------------

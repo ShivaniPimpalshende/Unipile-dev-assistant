@@ -1,0 +1,334 @@
+API Name: Create a job posting
+
+Method:
+POST
+
+Endpoint:
+https://{subdomain}.unipile.com:{port}/api/v1/linkedin/jobs
+
+Description:
+Create a new job offer draft.
+
+--------------------------------------------------------------------
+BODY PARAMETERS
+--------------------------------------------------------------------
+- account_id (An Unipile account id.)
+- job_title
+- company
+- workplace (Allowed: ON_SITE,HYBRID,REMOTE)
+- location (The ID of the parameter. Use type LOCATION on the List search parameters route to find out the right ID )
+- employment_status 
+  Allowed: 
+	FULL_TIME
+	PART_TIME
+	CONTRACT
+	TEMPORARY
+	OTHER
+	VOLUNTEER
+	INTERNSHIP
+- description (You can use HTML tags to structure your description.)
+- auto_rejection_template (You can define a rejection message template to be automatically sent to applicants that don't pass screening questions.)
+
+
+--------------------------------------------------------------------
+RESPONSES
+--------------------------------------------------------------------
+200 OK
+The request succeeded 
+
+Response Object:
+- object: "LinkedinJobPostingDraftCreated"
+- job_id
+- project_id (The ID of the Project for Recruiter job postings)
+- public_options
+- free
+- promoted
+
+
+--------------------------------------------------------------------
+ERROR RESPONSES
+--------------------------------------------------------------------
+401 UNAUTHORIZED
+
+403 FORBIDDEN
+- Insufficient permissions - Type: "errors/insufficient_permissions"
+- Account restricted - Type: "errors/account_restricted"
+- Account mismatch - Type: "errors/account_mismatch"
+- Unknown authentication context - Type: "errors/unknown_authentication_context"
+- Session mismatch - Type: "errors/session_mismatch"
+- Feature not subscribed - Type: "errors/feature_not_subscribed"
+- Subscription required - Type: "errors/subscription_required"
+- Resource access restricted - Type: "errors/resource_access_restricted"
+- Action required - Type: "errors/action_required"
+
+404 NOT FOUND
+
+422 UNPROCESSABLE ENTITY
+
+500 INTERNAL SERVER ERROR
+- Unexpected error - Type: "errors/unexpected_error"
+- Provider error - Type: "errors/provider_error"
+- Authentication intent error - Type: "errors/authentication_intent_error"
+
+503 SERVICE UNAVAILABLE
+No client session - Type: "errors/no_client_session"
+No channel - Type: "errors/no_channel"
+Handler missing - Type: "errors/no_handler"
+Network down - Type: "errors/network_down"
+Service unavailable - Type: "errors/service_unavailable"
+
+504 GATEWAY TIMEOUT
+- Request timeout: errors/request_timeout
+
+--------------------------------------------------------------------
+REQUEST EXAMPLES
+--------------------------------------------------------------------
+Shell:
+curl --request POST \
+     --url https://api1.unipile.com:13111/api/v1/linkedin/jobs \
+     --header 'accept: application/json' \
+     --header 'content-type: application/json' \
+     --data '
+{
+  "workplace": "ON_SITE"
+}
+'
+
+Node:
+const url = 'https://api1.unipile.com:13111/api/v1/linkedin/jobs';
+const options = {
+  method: 'POST',
+  headers: {accept: 'application/json', 'content-type': 'application/json'},
+  body: JSON.stringify({workplace: 'ON_SITE'})
+};
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
+
+Ruby:
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/linkedin/jobs")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Post.new(url)
+request["accept"] = 'application/json'
+request["content-type"] = 'application/json'
+request.body = "{\"workplace\":\"ON_SITE\"}"
+response = http.request(request)
+puts response.read_body
+
+PHP:
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('POST', 'https://api1.unipile.com:13111/api/v1/linkedin/jobs', [
+  'body' => '{"workplace":"ON_SITE"}',
+  'headers' => [
+    'accept' => 'application/json',
+    'content-type' => 'application/json',
+  ],
+]);
+echo $response->getBody();
+
+Python:
+import requests
+url = "https://api1.unipile.com:13111/api/v1/linkedin/jobs"
+payload = { "workplace": "ON_SITE" }
+headers = {
+    "accept": "application/json",
+    "content-type": "application/json"
+}
+response = requests.post(url, json=payload, headers=headers)
+print(response.text)
+
+C / C++:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/linkedin/jobs");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, "{\"workplace\":\"ON_SITE\"}");
+CURLcode ret = curl_easy_perform(hnd);
+
+C#:
+using RestSharp;
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/linkedin/jobs");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+request.AddJsonBody("{\"workplace\":\"ON_SITE\"}", false);
+var response = await client.PostAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+
+Clojure:
+(require '[clj-http.client :as client])
+(client/post "https://api1.unipile.com:13111/api/v1/linkedin/jobs" {:content-type :json
+                                                                    :form-params {:workplace "ON_SITE"}
+                                                                    :accept :json})
+
+Go:
+package main
+import (
+	"fmt"
+	"strings"
+	"net/http"
+	"io"
+)
+func main() {
+	url := "https://api1.unipile.com:13111/api/v1/linkedin/jobs"
+	payload := strings.NewReader("{\"workplace\":\"ON_SITE\"}")
+	req, _ := http.NewRequest("POST", url, payload)
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("content-type", "application/json")
+	res, _ := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+	fmt.Println(string(body))
+}
+
+HTTP:
+POST /api/v1/linkedin/jobs HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Host: api1.unipile.com:13111
+Content-Length: 23
+{"workplace":"ON_SITE"}
+
+Java:
+OkHttpClient client = new OkHttpClient();
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "{\"workplace\":\"ON_SITE\"}");
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/linkedin/jobs")
+  .post(body)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "application/json")
+  .build();
+Response response = client.newCall(request).execute();
+
+Javascript:
+const options = {
+  method: 'POST',
+  headers: {accept: 'application/json', 'content-type': 'application/json'},
+  body: JSON.stringify({workplace: 'ON_SITE'})
+};
+fetch('https://api1.unipile.com:13111/api/v1/linkedin/jobs', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+Kotlin:
+val client = OkHttpClient()
+val mediaType = MediaType.parse("application/json")
+val body = RequestBody.create(mediaType, "{\"workplace\":\"ON_SITE\"}")
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/linkedin/jobs")
+  .post(body)
+  .addHeader("accept", "application/json")
+  .addHeader("content-type", "application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+Objective-C:
+#import <Foundation/Foundation.h>
+NSDictionary *headers = @{ @"accept": @"application/json",
+                           @"content-type": @"application/json" };
+NSDictionary *parameters = @{ @"workplace": @"ON_SITE" };
+NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:nil];
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/linkedin/jobs"]                                                      cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                   timeoutInterval:10.0];
+[request setHTTPMethod:@"POST"];
+[request setAllHTTPHeaderFields:headers];
+[request setHTTPBody:postData];
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                if (error) {
+                                                    NSLog(@"%@", error);
+                                                } else {
+                                                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                                                    NSLog(@"%@", httpResponse);
+                                                }
+                                            }];
+[dataTask resume];
+
+O-Caml:
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/linkedin/jobs" in
+let headers = Header.add_list (Header.init ()) [
+  ("accept", "application/json");
+  ("content-type", "application/json");
+] in
+let body = Cohttp_lwt_body.of_string "{\"workplace\":\"ON_SITE\"}" in
+Client.call ~headers ~body `POST uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)
+
+PowerShell:
+$headers=@{}
+$headers.Add("accept", "application/json")
+$headers.Add("content-type", "application/json")
+$response = Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/linkedin/jobs' -Method POST -Headers $headers -ContentType 'application/json' -Body '{"workplace":"ON_SITE"}'
+
+R:
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/linkedin/jobs"
+payload <- "{\"workplace\":\"ON_SITE\"}"
+encode <- "json"
+response <- VERB("POST", url, body = payload, content_type("application/json"), accept("application/json"), encode = encode)
+content(response, "text")
+
+Swift:
+import Foundation
+let parameters = ["workplace": "ON_SITE"] as [String : Any?]
+let postData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/linkedin/jobs")!
+var request = URLRequest(url: url)
+request.httpMethod = "POST"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = [
+  "accept": "application/json",
+  "content-type": "application/json"
+]
+request.httpBody = postData
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+--------------------------------------------------------------------
+SUCCESS RESPONSE EXAMPLE (200)
+--------------------------------------------------------------------
+{
+  "object": "LinkedinJobPostingDraftCreated",
+  "job_id": "string",
+  "project_id": "string",
+  "publish_options": {
+    "free": {
+      "eligible": true,
+      "ineligible_reason": "string",
+      "estimated_monthly_applicants": 0
+    },
+    "promoted": {
+      "estimated_monthly_applicants": 0,
+      "currency": "string",
+      "daily_budget": {
+        "min": 0,
+        "max": 0,
+        "recommended": 0
+      },
+      "monthly_budget": {
+        "min": 0,
+        "max": 0,
+        "recommended": 0
+      }
+    }
+  }
+}
+--------------------------------------------------------------------

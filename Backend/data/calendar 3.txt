@@ -1,0 +1,360 @@
+API Name: Retrieve all events from a calendar
+
+Method:
+GET
+
+Endpoint:
+https://{subdomain}.unipile.com:{port}/api/v1/calendars/{calendar_id}/events
+
+Description:
+Returns a list of calendar events related to the given calendar
+
+--------------------------------------------------------------------
+PATH PARAMETERS
+--------------------------------------------------------------------
+- calendar_id (the id of the calendar related to events)
+
+
+--------------------------------------------------------------------
+QUERY PARAMETERS
+--------------------------------------------------------------------
+- expand_recurring (Filter events by type (single or occurence))
+- event_type (Filter events by event type. This parameter accepts a comma-delimited list of event type)
+- attendees (Filter events with attendees contained in this list. This parameter accepts a comma-delimited list of email addresses)
+- updated_after (Filter events updated after this date)
+- updated_before (Filter events updated before this date)
+- busy (Filter for events with the status busy)
+- end (Filter events ending before this date)
+- start (Filter events starting after this date)
+- location (Filter for events matching the specified location)
+- ical_uid (Filter for events matching the specified iCal UID)
+- description (Filter for events matching the specified description)
+- title (Filter for events matching the specified title)
+- is_cancelled (Indicates if you want to retrieve the cancelled events)
+- cursor (A cursor used for pagination. If supported by the provider, use next_cursor given by the previous page of the list, else use offset)
+- offset (An offset used for pagination, if supported by the provider, else use cursor)
+- limit (The limit of items to be returned)
+- account_id (The id of the account to use)
+
+
+--------------------------------------------------------------------
+RESPONSES
+--------------------------------------------------------------------
+200 OK
+
+Response Object:
+- object: "CalendarEvent"
+- id (The ID of the calendar event)
+- master_event_id (If event instance, the ID of the master event)
+- calendar_id (The ID of the calendar the event belongs to)
+- created_at (The date the event was created. Uses ISO 8601 UTC datetime (YYYY-MM-DDTHH:MM:SS.sssZ))
+- updated_at (The date the event was last updated. Uses ISO 8601 UTC datetime (YYYY-MM-DDTHH:MM:SS.sssZ))
+- title (The title of the event)
+- body (The body of the event)
+- location (The location of the event)
+- is_cancelled (Is the event cancelled)
+- is_all_day (Is the event all day)
+- is_attendees_list_hidden (Is the attendees list hidden for attendees)
+- attendees (The attendees of the event)
+- object: "email"
+- email (Email address of the attendee)
+- display_name (Display name of the attendee)
+- comment (The response comment of the attendee)
+- is_organizer (Is the attendee the organizer of the event)
+- is_optional (Is the attendee optional (based on type))
+- is_resource (Is the attendee a resource (based on type))
+- type (Type of the attendee)
+- response_status (The response status of the attendee. yes if the invitation is accepted. no if the invitation is declined. maybe if the attendee is not sure. noreply if the invitation is pending)
+- start (The start date and time of the event)
+- end (The end date and time of the event)
+- recurrence (List of RRULE, EXRULE, RDATE and EXDATE lines for a recurring event, as specified in RFC5545)
+- organizer
+- conference
+- visibility (The visibility of the event)
+- transparency (The transparency of the event. opaque does block time on the calendar and is equivalent to setting Show me as to Busy in the Calendar UI. transparent does not block time on the calendar and is equivalent to setting Show me as to Available in the Calendar UI)
+- event_type (The type of the event (birthday, fromGmail, outOfOffice...))
+- next_cursor (Cursor to get the next page of results if supported. Else use offset)
+
+
+--------------------------------------------------------------------
+ERROR RESPONSES
+--------------------------------------------------------------------
+401 UNAUTHORIZED
+- Missing credentials - Type: "errors/missing_credentials"
+- Multiple sessions - Type: "errors/multiple_sessions"
+- Wrong account - Type: "errors/wrong_account"
+- Invalid credentials - Type: "errors/invalid_credentials"
+- Invalid proxy credentials - Type: "errors/invalid_proxy_credentials"
+- Invalid IMAP configuration - Type: "errors/invalid_imap_configuration"
+- Invalid SMTP configuration - Type: "errors/invalid_smtp_configuration"
+- Invalid checkpoint solution - Type: "errors/invalid_checkpoint_solution"
+- Checkpoint error - Type: "errors/checkpoint_error"
+- Expired credentials - Type: "errors/expired_credentials"
+- Expired link - Type: "errors/expired_link"
+- Insufficient privileges - Type: "errors/insufficient_privileges"
+- Disconnected account - Type: "errors/disconnected_account".
+- Disconnected feature - Type: "errors/disconnected_feature"
+
+403 FORBIDDEN
+- Insufficient permissions - Type: "errors/insufficient_permissions"
+- Account restricted - Type: "errors/account_restricted"
+- Account mismatch - Type: "errors/account_mismatch"
+- Unknown authentication context - Type: "errors/unknown_authentication_context"
+- Session mismatch - Type: "errors/session_mismatch"
+- Feature not subscribed - Type: "errors/feature_not_subscribed"
+- Subscription required - Type: "errors/subscription_required"
+- Resource access restricted - Type: "errors/resource_access_restricted"
+- Action required - Type: "errors/action_required"
+
+500 INTERNAL SERVER ERROR
+- Unexpected error - Type: "errors/unexpected_error"
+- Provider error - Type: "errors/provider_error"
+- Authentication intent error - Type: "errors/authentication_intent_error"
+
+503 SERVICE UNAVAILABLE
+- No client session - Type: "errors/no_client_session"
+- No channel - Type: "errors/no_channel"
+- Handler missing - Type: "errors/no_handler"
+- Network down - Type: "errors/network_down"
+- Service unavailable - Type: "errors/service_unavailable"
+
+504 GATEWAY TIMEOUT
+- Request timeout: errors/request_timeout
+
+--------------------------------------------------------------------
+REQUEST EXAMPLES  / Code
+--------------------------------------------------------------------
+Shell:
+curl --request GET \
+     --url https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events \
+     --header 'accept: application/json'
+
+
+Node:
+const url = 'https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events';
+const options = {method: 'GET', headers: {accept: 'application/json'}};
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
+
+
+Ruby:
+require 'uri'
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Get.new(url)
+request["accept"] = 'application/json'
+response = http.request(request)
+puts response.read_body
+
+PHP:
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('GET', 'https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events', [
+  'headers' => [
+    'accept' => 'application/json',
+  ],
+]);
+echo $response->getBody();
+
+Python:
+import requests
+url = "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events"
+headers = {"accept": "application/json"}
+response = requests.get(url, headers=headers)
+print(response.text)
+
+
+C / C++:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);
+
+
+C#:
+using RestSharp;
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+var response = await client.GetAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+
+Clojure:
+(require '[clj-http.client :as client])
+(client/get "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events" {:accept :json})
+
+
+Go:
+package main
+import (
+	"fmt"
+	"net/http"
+	"io"
+)
+func main() {
+	url := "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events"
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Add("accept", "application/json")
+	res, _ := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+	fmt.Println(string(body))
+}
+
+
+HTTP:
+GET /api/v1/calendars/calendar_id/events HTTP/1.1
+Accept: application/json
+Host: api1.unipile.com:13111
+
+
+Java:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events")
+  .get()
+  .addHeader("accept", "application/json")
+  .build();
+Response response = client.newCall(request).execute();
+
+
+Javascript:
+const options = {method: 'GET', headers: {accept: 'application/json'}};
+fetch('https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+
+Kotlin:
+val client = OkHttpClient()
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events")
+  .get()
+  .addHeader("accept", "application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+
+Objective-C:
+#import <Foundation/Foundation.h>
+NSDictionary *headers = @{ @"accept": @"application/json" };
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events"]                                                    cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                   timeoutInterval:10.0];
+[request setHTTPMethod:@"GET"];
+[request setAllHTTPHeaderFields:headers];
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                if (error) {
+                                                    NSLog(@"%@", error);
+                                                } else {
+                        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                                                    NSLog(@"%@", httpResponse);
+                                                }
+                                            }];
+[dataTask resume];
+
+
+O-Caml:
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events" in
+let headers = Header.add (Header.init ()) "accept" "application/json" in
+Client.call ~headers `GET uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)
+
+
+PowerShell:
+$headers=@{}
+$headers.Add("accept", "application/json")
+$response = Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events' -Method GET -Headers $headers
+
+R:
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events"
+response <- VERB("GET", url, content_type("application/octet-stream"), accept("application/json"))
+content(response, "text")
+
+
+Swift:
+import Foundation
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/calendars/calendar_id/events")!
+var request = URLRequest(url: url)
+request.httpMethod = "GET"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = ["accept": "application/json"]
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+--------------------------------------------------------------------
+SUCCESS RESPONSE EXAMPLE (200)
+--------------------------------------------------------------------
+{
+  "data": [
+    {
+      "object": "CalendarEvent",
+      "id": "string",
+      "master_event_id": "string",
+      "calendar_id": "string",
+      "created_at": "string",
+      "updated_at": "string",
+      "title": "string",
+      "body": "string",
+      "location": "string",
+      "is_cancelled": true,
+      "is_all_day": true,
+      "is_attendees_list_hidden": true,
+      "attendees": [
+        {
+          "email": "string",
+          "display_name": "string",
+          "comment": "string",
+          "is_organizer": true,
+          "is_optional": true,
+          "is_resource": true,
+          "type": "required",
+          "response_status": "yes"
+        }
+      ],
+      "start": {
+        "date_time": "string",
+        "time_zone": "string"
+      },
+      "end": {
+        "date_time": "string",
+        "time_zone": "string"
+      },
+      "recurrence": [
+        "string"
+      ],
+      "organizer": {
+        "email": "string",
+        "display_name": "string"
+      },
+      "conference": {
+        "provider": "google_meet",
+        "url": "string"
+      },
+      "visibility": "public",
+      "transparency": "opaque",
+      "event_type": "default"
+    }
+  ],
+  "next_cursor": "string"
+}
+--------------------------------------------------------------------

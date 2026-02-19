@@ -1,0 +1,572 @@
+Retrieve a profile
+get
+https://{subdomain}.unipile.com:{port}/api/v1/users/{identifier}
+Retrieve the profile of a user. Ensure careful implementation of this action and consult provider limits and restrictions: https://developer.unipile.com/docs/provider-limits-and-restrictions
+
+
+Path Params
+identifier
+string
+required
+Can be the provider’s internal id OR the provider’s public id of the requested user.
+
+Query Params
+linkedin_sections
+array of strings
+A list of profile sections to retrieve detailed information on a LinkedIn profile. LinkedIn may throttle heavy use of full data section requests, so pick only the sections you truly need. Select *_preview to fetch all sections with preview data (first entries as displayed in the LinkedIn profile UI), or * to fetch all sections with full data (not recommended if you’re chaining a lot of profile calls in a short period). You can also combine selectors, for example, ["*_preview", "experience", "skills"] to get all sections in preview plus experience and skills in full. In the response, you may receive empty sections if LinkedIn is throttling your requests. In such case, the throttled_sections field lists the concerned sections. To prevent this, you should add random delay between your calls, and/or not request as many sections as you use to.
+
+
+ADD string
+linkedin_api
+string
+enum
+The LinkedIn API that should be used to get the profile (relative features must be subscribed), if different from classic.
+
+
+Allowed:
+
+recruiter
+
+sales_navigator
+notify
+boolean
+Whether the profile visit should be notified to the viewee or not. Default is false.
+
+account_id
+string
+required
+The id of the account to perform the request from.
+
+REQUEST EXAMPLES:
+
+Shell:
+curl --request GET \
+     --url https://api1.unipile.com:13111/api/v1/users/identifier \
+     --header 'accept: application/json'
+
+
+Node:
+import { UnipileClient } from "unipile-node-sdk"
+// SDK setup
+const BASE_URL = "your base url"
+const ACCESS_TOKEN = "your access token"
+// Inputs
+const account_id = "account id"
+const identifier = "identifier"
+try {
+	const client = new UnipileClient(BASE_URL, ACCESS_TOKEN)
+	const response = await client.users.getProfile({
+		account_id,
+		identifier,
+	})
+} catch (error) {
+	console.log(error)
+}
+
+
+
+Ruby:
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/users/identifier")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Get.new(url)
+request["accept"] = 'application/json'
+response = http.request(request)
+puts response.read_body
+
+
+PHP:
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('GET', 'https://api1.unipile.com:13111/api/v1/users/identifier', [
+  'headers' => [
+    'accept' => 'application/json',
+  ],
+]);
+echo $response->getBody();
+
+
+R:
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/users/identifier"
+response <- VERB("GET", url, content_type("application/octet-stream"), accept("application/json"))
+content(response, "text")
+
+
+C:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/users/identifier");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);
+
+
+C#:
+using RestSharp;
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/users/identifier");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+var response = await client.GetAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+
+
+C++:
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/users/identifier");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+CURLcode ret = curl_easy_perform(hnd);
+
+
+Clojure:
+(require '[clj-http.client :as client])
+(client/get "https://api1.unipile.com:13111/api/v1/users/identifier" {:accept :json})
+
+
+Go:
+package main
+import (
+	"fmt"
+	"net/http"
+	"io"
+)
+func main() {
+	url := "https://api1.unipile.com:13111/api/v1/users/identifier"
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Add("accept", "application/json")
+	res, _ := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+	fmt.Println(string(body))
+}
+
+
+HTTP:
+GET /api/v1/users/identifier HTTP/1.1
+Accept: application/json
+Host: api1.unipile.com:13111
+
+
+Java:
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/users/identifier")
+  .get()
+  .addHeader("accept", "application/json")
+  .build();
+Response response = client.newCall(request).execute();
+
+
+JavaScript:
+const options = {method: 'GET', headers: {accept: 'application/json'}};
+fetch('https://api1.unipile.com:13111/api/v1/users/identifier', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+
+Kotlin:
+val client = OkHttpClient()
+val request = Request.Builder()
+  .url("https://api1.unipile.com:13111/api/v1/users/identifier")
+  .get()
+  .addHeader("accept", "application/json")
+  .build()
+val response = client.newCall(request).execute()
+
+
+Objective-C:
+#import <Foundation/Foundation.h>
+NSDictionary *headers = @{ @"accept": @"application/json" };
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api1.unipile.com:13111/api/v1/users/identifier"]                                                    cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                   timeoutInterval:10.0];
+[request setHTTPMethod:@"GET"];
+[request setAllHTTPHeaderFields:headers];
+
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                if (error) {
+                                                    NSLog(@"%@", error);
+                                                } else {
+                                                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                                                    NSLog(@"%@", httpResponse);
+                                                }
+                                            }];
+[dataTask resume];
+
+
+OCaml:
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+let uri = Uri.of_string "https://api1.unipile.com:13111/api/v1/users/identifier" in
+let headers = Header.add (Header.init ()) "accept" "application/json" in
+Client.call ~headers `GET uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)
+
+
+PowerShell:
+$headers=@{}
+$headers.Add("accept", "application/json")
+$response = Invoke-WebRequest -Uri 'https://api1.unipile.com:13111/api/v1/users/identifier' -Method GET -Headers $headers
+
+
+Python:
+import requests
+url = "https://api1.unipile.com:13111/api/v1/users/identifier"
+headers = {"accept": "application/json"}
+response = requests.get(url, headers=headers)
+print(response.text)
+
+
+Swift:
+import Foundation
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/users/identifier")!
+var request = URLRequest(url: url)
+request.httpMethod = "GET"
+request.timeoutInterval = 10
+request.allHTTPHeaderFields = ["accept": "application/json"]
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+
+RESPONSE:
+{
+  "provider": "LINKEDIN",
+  "provider_id": "string",
+  "public_identifier": "string",
+  "first_name": "string",
+  "last_name": "string",
+  "headline": "string",
+  "summary": "string",
+  "contact_info": {
+    "emails": [
+      "string"
+    ],
+    "phones": [
+      "string"
+    ],
+    "adresses": [
+      "string"
+    ],
+    "socials": [
+      {
+        "type": "string",
+        "name": "string"
+      }
+    ]
+  },
+  "birthdate": {
+    "month": 0,
+    "day": 0
+  },
+  "primary_locale": {
+    "country": "string",
+    "language": "string"
+  },
+  "location": "string",
+  "websites": [
+    "string"
+  ],
+  "creator_website": {
+    "url": "string",
+    "description": "string"
+  },
+  "profile_picture_url": "string",
+  "profile_picture_url_large": "string",
+  "background_picture_url": "string",
+  "hashtags": [
+    "string"
+  ],
+  "can_send_inmail": true,
+  "is_open_profile": true,
+  "is_premium": true,
+  "is_influencer": true,
+  "is_creator": true,
+  "is_hiring": true,
+  "is_open_to_work": true,
+  "is_saved_lead": true,
+  "is_crm_imported": true,
+  "is_relationship": true,
+  "is_self": true,
+  "invitation": {
+    "type": "SENT",
+    "status": "PENDING"
+  },
+  "work_experience": [
+    {
+      "id": "string",
+      "position": "string",
+      "company_id": "string",
+      "company_url": "string",
+      "company_picture_url": "string",
+      "industry": [
+        "string"
+      ],
+      "company": "string",
+      "location": "string",
+      "description": "string",
+      "skills": [
+        "string"
+      ],
+      "current": true,
+      "status": "string",
+      "start": "string",
+      "end": "string"
+    }
+  ],
+  "work_experience_total_count": 0,
+  "volunteering_experience": [
+    {
+      "company": "string",
+      "description": "string",
+      "role": "string",
+      "cause": "string",
+      "start": "string",
+      "end": "string"
+    }
+  ],
+  "volunteering_experience_total_count": 0,
+  "education": [
+    {
+      "id": "string",
+      "degree": "string",
+      "grade": "string",
+      "description": "string",
+      "activities": "string",
+      "school": "string",
+      "school_id": "string",
+      "school_url": "string",
+      "school_picture_url": "string",
+      "skills": [
+        "string"
+      ],
+      "field_of_study": "string",
+      "start": "string",
+      "end": "string"
+    }
+  ],
+  "education_total_count": 0,
+  "skills": [
+    {
+      "name": "string",
+      "endorsement_count": 0,
+      "endorsement_id": 0,
+      "insights": [
+        "string"
+      ],
+      "endorsed": true
+    }
+  ],
+  "skills_total_count": 0,
+  "languages": [
+    {
+      "name": "string",
+      "proficiency": "string"
+    }
+  ],
+  "languages_total_count": 0,
+  "certifications": [
+    {
+      "name": "string",
+      "organization": "string",
+      "url": "string"
+    }
+  ],
+  "certifications_total_count": 0,
+  "projects": [
+    {
+      "name": "string",
+      "description": "string",
+      "skills": [
+        "string"
+      ],
+      "start": "string",
+      "end": "string"
+    }
+  ],
+  "projects_total_count": 0,
+  "recommendations": {
+    "received": [
+      {
+        "text": "string",
+        "caption": "string",
+        "actor": {
+          "first_name": "string",
+          "last_name": "string",
+          "provider_id": "string",
+          "headline": "string",
+          "public_identifier": "string",
+          "public_profile_url": "string",
+          "profile_picture_url": "string"
+        }
+      }
+    ],
+    "received_total_count": 0,
+    "given": [
+      {
+        "text": "string",
+        "caption": "string",
+        "actor": {
+          "first_name": "string",
+          "last_name": "string",
+          "provider_id": "string",
+          "headline": "string",
+          "public_identifier": "string",
+          "public_profile_url": "string",
+          "profile_picture_url": "string"
+        }
+      }
+    ],
+    "given_total_count": 0
+  },
+  "tags": [
+    {
+      "id": "string",
+      "name": "string"
+    }
+  ],
+  "notes": [
+    {
+      "project_id": "string",
+      "content": "string",
+      "created_at": 0,
+      "author": {
+        "id": "string",
+        "seat_id": "string",
+        "first_name": "string",
+        "last_name": "string",
+        "public_profile_url": true
+      }
+    }
+  ],
+  "recruiting_activity": [
+    {
+      "created_at": "string",
+      "created_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "updated_at": "string",
+      "updated_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "event": "MESSAGE",
+      "content": "string",
+      "status": "PENDING"
+    },
+    {
+      "created_at": "string",
+      "created_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "updated_at": "string",
+      "updated_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "event": "NOTE_ADDED",
+      "content": "string"
+    },
+    {
+      "created_at": "string",
+      "created_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "updated_at": "string",
+      "updated_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "event": "LINK_ADDED",
+      "content": "string"
+    },
+    {
+      "created_at": "string",
+      "created_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "updated_at": "string",
+      "updated_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "event": "CANDIDATE_ADDED",
+      "project_id": "string",
+      "project_name": "string",
+      "state": "string"
+    },
+    {
+      "created_at": "string",
+      "created_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "updated_at": "string",
+      "updated_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "event": "PROFILE_VIEW"
+    },
+    {
+      "created_at": "string",
+      "created_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "updated_at": "string",
+      "updated_by": {
+        "provider_id": "string",
+        "full_name": "string",
+        "picture_url": "string"
+      },
+      "event": "UNHANDLED_EVENT"
+    }
+  ],
+  "throttled_sections": [
+    "experience",
+    "education",
+    "languages",
+    "skills",
+    "certifications",
+    "volunteering_experience",
+    "projects",
+    "recommendations_received",
+    "recommendations_given"
+  ],
+  "follower_count": 0,
+  "connections_count": 0,
+  "shared_connections_count": 0,
+  "network_distance": "FIRST_DEGREE",
+  "public_profile_url": "string",
+  "object": "UserProfile"
+}

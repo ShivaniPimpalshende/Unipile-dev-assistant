@@ -1,12 +1,4 @@
-       Documentation                                                                               
-
- How to create an Outreach Sequence                                                     Search
-
-
-
-
 How to create an Outreach Sequence
-
 This guide provides best practices for automating your outreach efforts by compiling a list of profiles and
 sending invitations in bulk on LinkedIn. It also offers strategies to save time during the integration
 process..
@@ -68,14 +60,6 @@ To increase prospecting volumes and not be capped at the limit of 200 invitation
 incorporate email management into your sequence.
 
 
- Updated 4 months ago
 
 
 
- Calendars & Events                                                     Detecting Accepted Invitations 
-
-
-
-
-                                  Did this page help you?     Yes     No
-

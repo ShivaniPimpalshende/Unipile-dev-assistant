@@ -1,0 +1,220 @@
+========================================
+API: Resend Checkpoint Notification
+========================================
+
+METHOD:
+POST
+
+ENDPOINT:
+https://{subdomain}.unipile.com:{port}/api/v1/accounts/checkpoint/resend
+
+DESCRIPTION:
+Might it be 2FA, OTP or In-app Validation, this route makes you able on certain providers to resend the notification.
+
+----------------------------------------
+REQUEST BODY
+----------------------------------------
+{
+  "provider": "LINKEDIN"
+}
+
+========================================
+REQUEST EXAMPLES
+========================================
+
+----------------------------------------
+SHELL
+----------------------------------------
+curl --request POST \
+  --url https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend \
+  --header 'accept: application/json' \
+  --header 'content-type: application/json' \
+  --data '{
+    "provider": "LINKEDIN"
+  }'
+
+----------------------------------------
+NODE (LinkedIn Example)
+----------------------------------------
+import { UnipileClient } from "unipile-node-sdk"
+const BASE_URL = "your base url"
+const ACCESS_TOKEN = "your access token"
+const account_id = "account id"
+const provider = "LINKEDIN"
+const code = "2FA/OTP code"
+try {
+  const client = new UnipileClient(BASE_URL, ACCESS_TOKEN)
+  const response = await client.account.solveCodeCheckpoint({
+    account_id,
+    provider,
+    code,
+  })
+} catch (error) {
+  console.log(error)
+}
+
+----------------------------------------
+RUBY
+----------------------------------------
+require 'uri'
+require 'net/http'
+url = URI("https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Post.new(url)
+request["accept"] = 'application/json'
+request["content-type"] = 'application/json'
+request.body = "{\"provider\":\"LINKEDIN\"}"
+response = http.request(request)
+puts response.read_body
+
+----------------------------------------
+PHP
+----------------------------------------
+<?php
+require_once('vendor/autoload.php');
+$client = new \GuzzleHttp\Client();
+$response = $client->request('POST', 'https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend', [
+  'body' => '{"provider":"LINKEDIN"}',
+  'headers' => [
+    'accept' => 'application/json',
+    'content-type' => 'application/json',
+  ],
+]);
+echo $response->getBody();
+
+----------------------------------------
+R
+----------------------------------------
+library(httr)
+url <- "https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend"
+payload <- "{\"provider\":\"LINKEDIN\"}"
+encode <- "json"
+response <- VERB(
+  "POST",
+  url,
+  body = payload,
+  content_type("application/json"),
+  accept("application/json"),
+  encode = encode
+)
+content(response, "text")
+
+----------------------------------------
+C
+----------------------------------------
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, "{\"provider\":\"LINKEDIN\"}");
+CURLcode ret = curl_easy_perform(hnd);
+
+----------------------------------------
+C#
+----------------------------------------
+using RestSharp;
+var options = new RestClientOptions("https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend");
+var client = new RestClient(options);
+var request = new RestRequest("");
+request.AddHeader("accept", "application/json");
+request.AddJsonBody("{\"provider\":\"LINKEDIN\"}", false);
+var response = await client.PostAsync(request);
+Console.WriteLine("{0}", response.Content);
+
+----------------------------------------
+C++
+----------------------------------------
+CURL *hnd = curl_easy_init();
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+curl_easy_setopt(hnd, CURLOPT_WRITEDATA, stdout);
+curl_easy_setopt(hnd, CURLOPT_URL, "https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend");
+struct curl_slist *headers = NULL;
+headers = curl_slist_append(headers, "accept: application/json");
+headers = curl_slist_append(headers, "content-type: application/json");
+curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, "{\"provider\":\"LINKEDIN\"}");
+CURLcode ret = curl_easy_perform(hnd);
+
+----------------------------------------
+CLOJURE
+----------------------------------------
+(require '[clj-http.client :as client])
+(client/post
+  "https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend"
+  {:content-type :json
+   :form-params {:provider "LINKEDIN"}
+   :accept :json})
+
+----------------------------------------
+GO
+----------------------------------------
+package main
+import (
+  "fmt"
+  "strings"
+  "net/http"
+  "io"
+)
+func main() {
+  url := "https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend"
+  payload := strings.NewReader("{\"provider\":\"LINKEDIN\"}")
+  req, _ := http.NewRequest("POST", url, payload)
+  req.Header.Add("accept", "application/json")
+  req.Header.Add("content-type", "application/json")
+  res, _ := http.DefaultClient.Do(req)
+  defer res.Body.Close()
+  body, _ := io.ReadAll(res.Body)
+  fmt.Println(string(body))
+}
+
+----------------------------------------
+HTTP
+----------------------------------------
+POST /api/v1/accounts/checkpoint/resend HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Host: api1.unipile.com:13111
+{"provider":"LINKEDIN"}
+
+----------------------------------------
+PYTHON
+----------------------------------------
+import requests
+url = "https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend"
+payload = {"provider": "LINKEDIN"}
+headers = {
+  "accept": "application/json",
+  "content-type": "application/json"
+}
+response = requests.post(url, json=payload, headers=headers)
+print(response.text)
+
+----------------------------------------
+SWIFT
+----------------------------------------
+import Foundation
+let parameters = ["provider": "LINKEDIN"]
+let postData = try JSONSerialization.data(withJSONObject: parameters)
+let url = URL(string: "https://api1.unipile.com:13111/api/v1/accounts/checkpoint/resend")!
+var request = URLRequest(url: url)
+request.httpMethod = "POST"
+request.allHTTPHeaderFields = [
+  "accept": "application/json",
+  "content-type": "application/json"
+]
+request.httpBody = postData
+let (data, _) = try await URLSession.shared.data(for: request)
+print(String(decoding: data, as: UTF8.self))
+
+
+RESPONSE:
+{
+  "object": "CheckpointResend",
+  "account_id": "string",
+  "success": true
+}

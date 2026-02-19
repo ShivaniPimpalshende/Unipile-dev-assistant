@@ -1,18 +1,6 @@
-        Documentation                                                                          
-
- Calendars & Events                                                                  Search
-
-
-
-
 Calendars & Events
 Learn how to manage calendars & events of your connected accounts.
-
-
-
 Feature available for : Google, Microsoft
-
-
   📘     Calendar permissions are not enabled by default on your Unipile account. You need to activate
         the relevant scopes in the Settings section of your dashboard and reconnect your account to
         grant these permissions before you can use these API requests..
@@ -22,10 +10,6 @@ Feature available for : Google, Microsoft
 
 Get calendars
 To get existing emails, use the GET calendars Method .
-
- cURL
-
-
   curl --request GET \
        --url https://{YOUR_DSN}/api/v1/calendars?limit=10&account_id=5D586za6a-aAaasqXX \
        --header 'X-API-KEY: {YOUR_ACCESS_TOKEN}' \
@@ -65,14 +49,4 @@ You can create, update, delete or retrieve an event:
 
 
 
- Updated about 1 month ago
 
-
-
- Retrieving emails                                               How to create an Outreach Sequence 
-
-
-
-
-                                 Did this page help you?    Yes      No
-

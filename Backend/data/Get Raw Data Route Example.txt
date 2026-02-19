@@ -1,14 +1,5 @@
-?  ? Documentation	?
-
-
-
-
-
-
 Get Raw Data Route Example
 Learn how to use Magic Route
-
-
 The Get raw data route (Magic route) is intended for advanced users who wish to use LinkedIn's features beyond our current capabilities. It enables you to create custom functionalities that are not yet supported by our platform, using connected accounts. To utilize this route, you will need to identify the specific endpoint containing the desired data using web developer tools on LinkedIn, and then copy the URL along with its parameters for implementation.
 
 Identify Linkedin Enpoint
